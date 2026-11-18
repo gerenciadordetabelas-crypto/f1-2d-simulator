@@ -13,7 +13,11 @@ type Saved = { drivers: Driver[]; running: boolean; speed: number; elapsed: numb
 function loadRace(): Saved | null {
   try {
     const value = localStorage.getItem(STORAGE_KEY)
-    return value ? JSON.parse(value) as Saved : null
+    if (!value) return null
+    const parsed = JSON.parse(value) as Partial<Saved>
+    if (!Array.isArray(parsed.drivers) || parsed.drivers.length === 0) return null
+    if (!parsed.drivers.every((driver) => driver && Number.isFinite(driver.id) && Number.isFinite(driver.progress) && typeof driver.name === 'string')) return null
+    return { drivers: parsed.drivers as Driver[], running: Boolean(parsed.running), speed: [1, 2, 4, 8].includes(Number(parsed.speed)) ? Number(parsed.speed) : 1, elapsed: Number.isFinite(parsed.elapsed) ? Number(parsed.elapsed) : 0 }
   } catch { return null }
 }
 
@@ -37,7 +41,7 @@ export default function App() {
   }, [running, speed, finished])
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ drivers, running, speed, elapsed }))
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ drivers, running, speed, elapsed })) } catch { /* corrida continua em memória */ }
   }, [drivers, running, speed, elapsed])
 
   const reset = () => {
