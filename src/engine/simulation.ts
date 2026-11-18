@@ -3,7 +3,7 @@ import type { Driver } from '../data/grid'
 export function advanceRace(drivers: Driver[], totalLaps: number): Driver[] {
   const updated = drivers.map((driver) => {
     const variation = (Math.random() - 0.48) * 0.0018
-    const progress = driver.progress + Math.max(0.0003, driver.pace * 0.00125 + variation)
+    const progress = Math.min(totalLaps, driver.progress + Math.max(0.004, driver.pace * 0.018 + variation))
     return { ...driver, progress, lap: Math.min(totalLaps, Math.floor(progress) + 1) }
   })
   return updated
