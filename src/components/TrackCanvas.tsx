@@ -60,7 +60,7 @@ export default function TrackCanvas({ drivers, circuit, selected, onSelect }: Pr
     const rect = event.currentTarget.getBoundingClientRect()
     const x = (event.clientX - rect.left) / rect.width * 900
     const y = (event.clientY - rect.top) / rect.height * 560
-    let closest: Driver | null = null
+    let closestId: number | null = null
     let distance = Infinity
     drivers.forEach((driver) => {
       const t = ((driver.progress * 0.085 + (driver.id * 0.037)) % 1)
@@ -72,8 +72,8 @@ export default function TrackCanvas({ drivers, circuit, selected, onSelect }: Pr
       const dx = (a[0] + (b[0] - a[0]) * mix) * 900 - x
       const dy = (a[1] + (b[1] - a[1]) * mix) * 560 - y
       const d = dx * dx + dy * dy
-      if (d < distance) { distance = d; closest = driver }
+      if (d < distance) { distance = d; closestId = driver.id }
     })
-    if (closest && distance < 1800) onSelect(closest.id)
+    if (closestId !== null && distance < 1800) onSelect(closestId)
   }} />
 }
