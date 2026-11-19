@@ -330,9 +330,15 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
  const home=document.getElementById('homeview'),content=document.getElementById('homePageContent');
  const dashboard=content.innerHTML,sidebar=home.querySelector('.sidebar');
  const back=document.getElementById('backChampionships'),topStatus=document.getElementById('topStatus'),seasonPill=document.getElementById('seasonPill');
- const championship=null;
- const tracks=[];
- try{localStorage.removeItem('kart-2t-track');localStorage.removeItem('kart-2t-race-event')}catch(e){}
+ const championship={name:'Campeonato Brasileiro Mirim 2T'};
+ const tracks=[{
+  id:'serra-azul',
+  name:'Kartódromo Serra Azul',
+  city:'Serra Azul - SP',
+  type:'Técnico e sinuoso',
+  detail:'Traçado técnico com reta principal, curvas encadeadas e pontos de frenagem que favorecem disputas lado a lado.',
+  races:['1ª Corrida','2ª Corrida','3ª Corrida','4ª Corrida']
+ }];
  function trackSvg(t){if(t.id==='serra-azul')return '<img src="/serra-azul.svg" alt="Mapa oficial do Kartódromo Serra Azul" style="width:100%;height:auto;display:block;aspect-ratio:3/2;object-fit:cover;background:#0c1116;border:1px solid #29313a;border-radius:4px">';return '<svg viewBox="0 0 380 220" role="img" aria-label="Layout ilustrativo do '+t.name+'" style="width:100%;height:auto;display:block;background:#0c1116;border:1px solid #29313a;border-radius:4px"><path d="'+t.svg+'" fill="none" stroke="#77818a" stroke-width="34" stroke-linejoin="round" stroke-linecap="round"/><path d="'+t.svg+'" fill="none" stroke="#e5e9ec" stroke-width="2" stroke-linejoin="round" stroke-dasharray="9 8"/><path d="M30 190 l0 -18 M20 181 l20 0" stroke="#f5d400" stroke-width="4"/><text x="24" y="208" fill="#f5d400" font-size="9" font-weight="bold">LARGADA</text></svg>'}
  function showMainMenu(){
   home.classList.add('pre-championship');back.style.display='none';topStatus.textContent='MENU PRINCIPAL';seasonPill.textContent='KART 2T MANAGER';
@@ -341,8 +347,8 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
   document.getElementById('menuTracks').addEventListener('click',showTracks);
  }
  function showTracks(){
-  home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='PISTAS CADASTRADAS';seasonPill.textContent='0 PISTAS';
-  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>As pistas cadastradas no Kart 2T Manager aparecerão aqui.</p></section><section class="homecard"><div class="placeholder"><strong>Nenhuma pista cadastrada.</strong><br>A biblioteca está vazia no momento.</div></section>';
+  home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='PISTAS CADASTRADAS';seasonPill.textContent=tracks.length+' '+(tracks.length===1?'PISTA':'PISTAS');
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>Kartódromos oficiais cadastrados no Kart 2T Manager.</p></section><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">'+tracks.map((t,i)=>'<section class="homecard"><div class="cardtop"><div><small>PISTA '+String(i+1).padStart(2,'0')+'</small><h2>'+t.name+'</h2></div><span class="tag">'+t.type.toUpperCase()+'</span></div><div style="padding:14px">'+trackSvg(t)+'<p style="color:var(--muted);font-size:11px;line-height:1.6">'+t.detail+'</p><div style="color:var(--yellow);font-size:10px;font-weight:bold;letter-spacing:1px">'+t.city+'</div></div></section>').join('')+'</div>';
  }
  function showChampionships(){
   home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='MEUS CAMPEONATOS';seasonPill.textContent='KART 2T MANAGER';
