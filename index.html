@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b0e">
-<title>F1 2D Simulator</title>
+<title>Kart 2T Manager</title>
 <style>
 :root{color-scheme:dark;--yellow:#f5d400;--bg:#090b0e;--panel:#12171d;--line:#29313a;--muted:#89939d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -30%,#242a31 0,var(--bg) 60%);color:#f2f4f5;font:14px Inter,Arial,sans-serif;min-height:100vh}.shell{max-width:1500px;margin:auto;padding:0 34px}.top{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:13px;align-items:center}.mark{background:var(--yellow);color:#090b0e;font-weight:1000;font-style:italic;font-size:25px;padding:5px 10px;transform:skew(-8deg)}.brand b{letter-spacing:1px}.brand b span{color:var(--yellow)}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:2px;margin-top:4px}.status{font-size:10px;letter-spacing:1.5px;color:#bbc2c8}.led{display:inline-block;width:7px;height:7px;background:#747d85;border-radius:50%;margin-right:8px}.led.on{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}.heading{display:flex;justify-content:space-between;align-items:end;padding:30px 0 24px}.eyebrow{font-size:9px;letter-spacing:2px;color:var(--yellow);font-weight:bold}.heading h1{font-size:clamp(30px,4vw,44px);margin:8px 0;font-style:italic;letter-spacing:-1px}.heading h1 span{color:#aeb6bd;font-weight:400}.heading p{margin:0;color:var(--muted);font-size:12px}.stats{display:flex;gap:25px}.stats div{border-left:1px solid var(--line);padding-left:15px}.stats small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.2px;margin-bottom:6px}.stats strong{font-size:22px}.stats em{font-size:13px;color:var(--muted);font-style:normal}.controls{display:flex;align-items:center;justify-content:space-between;background:#171d24;border:1px solid var(--line);border-radius:5px;padding:12px 15px;margin-bottom:18px}.group{display:flex;align-items:center;gap:8px}.hint{font-size:9px;letter-spacing:1px;color:var(--muted);font-weight:bold;margin-right:8px}button{font:inherit;cursor:pointer}.btn,.speed{border:1px solid #3a444e;background:#222a32;color:#f2f4f5;border-radius:3px;padding:9px 13px;font-size:10px;font-weight:bold;letter-spacing:.7px}.btn.primary,.speed.active{background:var(--yellow);border-color:var(--yellow);color:#111}.btn:disabled{opacity:.4;cursor:not-allowed}.speed{padding:7px 11px}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(390px,1fr);gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden;min-width:0}.panelhead{height:65px;padding:0 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panelhead small{font-size:8px;letter-spacing:1.8px;color:var(--muted)}.panelhead h2{font-size:21px;margin:4px 0 0}.tag{font-size:9px;color:#c5ccd2;background:#252d35;padding:7px 9px}.track{width:100%;height:auto;display:block;aspect-ratio:900/560}.trackfoot{height:38px;border-top:1px solid var(--line);padding:0 15px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:8px;letter-spacing:1px}.yellowdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--yellow);margin-right:7px}.tablehead,.driver{display:grid;grid-template-columns:38px minmax(0,1fr) 42px 76px;align-items:center;padding:0 12px}.tablehead{height:33px;color:#78838d;font-size:8px;letter-spacing:1px;border-bottom:1px solid var(--line)}.rows{max-height:560px;overflow:auto}.driver{width:100%;height:43px;background:transparent;border:0;border-bottom:1px solid #222a31;text-align:left;color:#f1f3f5}.driver:hover,.driver.selected{background:#252e37}.pos{font-weight:900;color:var(--yellow);font-size:16px}.who{display:flex;align-items:center;gap:9px;min-width:0}.stripe{width:3px;height:25px;border-radius:3px;flex:none}.who span{min-width:0}.who b,.who small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.who b{font-size:10px}.who small{font-size:8px;color:var(--muted);margin-top:3px}.lap,.gap{font-size:9px;color:#b9c1c8}.gap{text-align:right}.selectedbox{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}.selectedbox b{color:#fff}.foot{display:flex;justify-content:space-between;padding:22px 0;color:#68737d;font-size:8px;letter-spacing:1px}.foot b{color:#aab2b9}@media(max-width:950px){.layout{grid-template-columns:1fr}.rows{max-height:450px}.shell{padding:0 18px}}@media(max-width:600px){.shell{padding:0 11px}.heading{display:block}.stats{margin-top:20px;justify-content:space-between;gap:8px}.stats div{padding-left:9px}.controls{align-items:flex-start;flex-direction:column;gap:12px}.hint{display:none}.group{flex-wrap:wrap}.foot{flex-direction:column;gap:8px}.tablehead,.driver{grid-template-columns:32px minmax(0,1fr) 34px 65px;padding:0 8px}}
 
@@ -39,7 +39,7 @@
 <body>
 <div class="homeview" id="homeview">
 <aside class="sidebar">
-  <div class="sidebrand"><div class="mark">F1</div><div><b>F1 2D SIMULATOR</b><small>RACE MANAGEMENT</small></div></div>
+  <div class="sidebrand"><div class="mark">K2T</div><div><b>KART 2T MANAGER</b><small>KART RACING MANAGEMENT</small></div></div>
   <div class="navlabel">MENU PRINCIPAL</div>
   <button class="navitem active" data-page="inicio"><span class="navicon">⌂</span><span class="navtext">Início</span></button>
   <button class="navitem" data-page="temporada"><span class="navicon">▦</span><span class="navtext">Temporada</span></button>
@@ -47,71 +47,82 @@
   <button class="navitem" data-page="classificacao"><span class="navicon">≡</span><span class="navtext">Classificação</span></button>
   <div class="navlabel">GESTÃO</div>
   <button class="navitem" data-page="equipes"><span class="navicon">◈</span><span class="navtext">Equipes</span></button>
-  <button class="navitem" data-page="pilotos"><span class="navicon">♙</span><span class="navtext">Pilotos</span></button>
-  <div class="sidebottom">F1 2D SIMULATOR<br>PROJETO EM DESENVOLVIMENTO</div>
+  <button class="navitem" data-page="kartistas"><span class="navicon">♙</span><span class="navtext">Kartistas</span></button>
+  <div class="sidebottom">KART 2T MANAGER<br>PROJETO EM DESENVOLVIMENTO</div>
 </aside>
 <div class="homecontent">
-  <header class="hometop"><div class="status"><i class="led on"></i> CENTRAL DE GERENCIAMENTO</div><div class="seasonpill">TEMPORADA DEMONSTRATIVA</div></header>
+  <header class="hometop"><div class="status"><i class="led on"></i> CENTRAL DE GERENCIAMENTO</div><div class="seasonpill">CAMPEONATO DEMONSTRATIVO</div></header>
   <div id="homePageContent">
-  <section class="welcome"><div class="eyebrow">BEM-VINDO AO PADDOCK</div><h1>Seu mundo da <span>Fórmula 1.</span></h1><p>Gerencie a temporada, acompanhe o campeonato e prepare-se para o próximo Grande Prêmio.</p></section>
+  <section class="welcome"><div class="eyebrow">BEM-VINDO AO PADDOCK</div><h1>Seu mundo do <span>Kart 2T.</span></h1><p>Gerencie o campeonato, acompanhe os kartistas e prepare-se para a próxima etapa.</p></section>
   <div class="homegrid">
-    <section class="homecard"><div class="cardtop"><div><small>PRÓXIMO EVENTO</small><h2>Fim de semana de corrida</h2></div><span class="tag">ROUND 01</span></div>
-      <div class="nextgp"><div class="gpflag">● GRANDE PRÊMIO</div><h2>São Paulo Grand Prix</h2><p>Autódromo José Carlos Pace · Interlagos · Brasil</p>
-        <div class="gpmeta"><div><small>CIRCUITO</small><b>Interlagos</b></div><div><small>EXTENSÃO</small><b>4,309 km</b></div><div><small>PROGRAMAÇÃO</small><b>Fim de semana</b></div></div>
+    <section class="homecard"><div class="cardtop"><div><small>PRÓXIMO EVENTO</small><h2>Fim de semana de kart</h2></div><span class="tag">ROUND 01</span></div>
+      <div class="nextgp"><div class="gpflag">● ETAPA DE KART</div><h2>Etapa de abertura</h2><p>Kartódromo demonstrativo · Brasil</p>
+        <div class="gpmeta"><div><small>CIRCUITO</small><b>Kartódromo</b></div><div><small>CATEGORIA</small><b>Kart 2T</b></div><div><small>PROGRAMAÇÃO</small><b>Fim de semana</b></div></div>
         <div class="actionrow"><button class="btn primary" id="openRace">▶ ABRIR FIM DE SEMANA</button><button class="btn secondary" id="viewCalendar">VER CALENDÁRIO</button></div>
       </div>
     </section>
     <section class="homecard"><div class="cardtop"><div><small>RESUMO DA TEMPORADA</small><h2>Visão geral</h2></div></div><div class="quickstats">
-      <div class="statbox"><small>EQUIPES</small><strong>11</strong><em>no grid</em></div><div class="statbox"><small>PILOTOS</small><strong>22</strong><em>inscritos</em></div>
-      <div class="statbox"><small>ETAPAS</small><strong>24</strong><em>no calendário</em></div><div class="statbox"><small>ETAPA ATUAL</small><strong>01</strong><em>de 24</em></div>
+      <div class="statbox"><small>EQUIPES DEMO.</small><strong>11</strong><em>base ilustrativa</em></div><div class="statbox"><small>KARTISTAS</small><strong>22</strong><em>base ilustrativa</em></div>
+      <div class="statbox"><small>CATEGORIAS</small><strong>1</strong><em>Kart 2T</em></div><div class="statbox"><small>ETAPA ATUAL</small><strong>01</strong><em>inicial</em></div>
     </div></section>
   </div>
   <div class="lowergrid">
     <section class="homecard"><div class="cardtop"><div><small>PADDOCK</small><h2>Atividade recente</h2></div></div><div class="activity">
-      <div class="activityrow"><i class="activitydot"></i><div><b>Temporada pronta para começar</b><small>O grid de 22 pilotos está configurado.</small></div></div>
-      <div class="activityrow"><i class="activitydot"></i><div><b>Interlagos selecionado</b><small>O próximo evento está definido.</small></div></div>
-      <div class="activityrow"><i class="activitydot"></i><div><b>Simulador 2D disponível</b><small>Acesse a corrida para acompanhar a ação na pista.</small></div></div>
+      <div class="activityrow"><i class="activitydot"></i><div><b>Temporada pronta para começar</b><small>A lista demonstrativa de 22 kartistas está carregada.</small></div></div>
+      <div class="activityrow"><i class="activitydot"></i><div><b>Kartódromo demonstrativo selecionado</b><small>O próximo kartódromo demonstrativo está definido.</small></div></div>
+      <div class="activityrow"><i class="activitydot"></i><div><b>Simulação 2D de kart disponível</b><small>Acesse a etapa para acompanhar os karts na pista.</small></div></div>
     </div></section>
     <section class="homecard"><div class="cardtop"><div><small>ACESSO RÁPIDO</small><h2>Gerenciamento</h2></div></div>
       <button class="shortcut" data-page="temporada"><span>Detalhes da temporada</span><span>›</span></button>
-      <button class="shortcut" data-page="calendario"><span>Calendário de corridas</span><span>›</span></button>
-      <button class="shortcut" data-page="classificacao"><span>Classificação do campeonato</span><span>›</span></button>
-      <button class="shortcut" data-page="equipes"><span>Equipes e pilotos</span><span>›</span></button>
+      <button class="shortcut" data-page="calendario"><span>Calendário de etapas</span><span>›</span></button>
+      <button class="shortcut" data-page="classificacao"><span>Classificação dos kartistas</span><span>›</span></button>
+      <button class="shortcut" data-page="equipes"><span>Equipes e kartistas</span><span>›</span></button>
     </section>
   </div>
   </div>
 </div>
 </div>
 <main class="shell" id="raceview" style="display:none">
-<header class="top"><button class="btn secondary" id="backHome">← MENU PRINCIPAL</button><div class="brand"><div class="mark">F1</div><div><b>F1 2D <span>SIMULATOR</span></b><small>RACE CONTROL · VERSÃO INICIAL</small></div></div><div class="status"><i class="led" id="led"></i><span id="status">SIMULAÇÃO PAUSADA</span></div></header>
-<section class="heading"><div><div class="eyebrow">TEMPORADA DEMONSTRATIVA · GRANDE PRÊMIO</div><h1>São Paulo <span>Grand Prix</span></h1><p>◉ Interlagos · São Paulo · Brasil &nbsp;|&nbsp; Autódromo José Carlos Pace</p></div><div class="stats"><div><small>VOLTA</small><strong id="lapstat">1 <em>/ 12</em></strong></div><div><small>TEMPO DE SESSÃO</small><strong id="clock">00:00</strong></div><div><small>EXTENSÃO</small><strong>4,309 <em>km</em></strong></div></div></section>
+<header class="top"><button class="btn secondary" id="backHome">← MENU PRINCIPAL</button><div class="brand"><div class="mark">K2T</div><div><b>KART 2T <span>MANAGER</span></b><small>KART CONTROL · VERSÃO INICIAL</small></div></div><div class="status"><i class="led" id="led"></i><span id="status">SIMULAÇÃO PAUSADA</span></div></header>
+<section class="heading"><div><div class="eyebrow">CAMPEONATO DEMONSTRATIVO · KART 2T</div><h1>Etapa de <span>abertura</span></h1><p>◉ Kartódromo demonstrativo · Brasil</p></div><div class="stats"><div><small>VOLTA</small><strong id="lapstat">1 <em>/ 12</em></strong></div><div><small>TEMPO DE SESSÃO</small><strong id="clock">00:00</strong></div><div><small>CATEGORIA</small><strong>Kart <em>2T</em></strong></div></div></section>
 <section class="controls"><div class="group"><span class="hint">CONTROLE DE CORRIDA</span><button class="btn primary" id="toggle">▶ INICIAR</button><button class="btn" id="reset">↻ REINICIAR</button></div><div class="group"><span class="hint">VELOCIDADE</span><button class="speed active" data-speed="1">1x</button><button class="speed" data-speed="2">2x</button><button class="speed" data-speed="4">4x</button><button class="speed" data-speed="8">8x</button></div></section>
-<div class="layout"><section class="panel"><div class="panelhead"><div><small>RACE TRACK</small><h2>Mapa da pista</h2></div><span class="tag">INTERLAGOS · BR</span></div><canvas id="track" class="track" width="900" height="560" aria-label="Mapa 2D de Interlagos com os carros"></canvas><div class="trackfoot"><span><i class="yellowdot"></i>22 CARROS EM PISTA</span><span>CLIQUE EM UM CARRO PARA SELECIONAR</span></div><div class="selectedbox" id="selectedbox">Selecione um piloto na pista ou na classificação.<b id="selectedpos"></b></div></section>
-<section class="panel"><div class="panelhead"><div><small>LIVE TIMING</small><h2>Classificação</h2></div><span class="eyebrow" id="live">● LIVE</span></div><div class="tablehead"><span>POS</span><span>PILOTO / EQUIPE</span><span>VOLTA</span><span style="text-align:right">INTERVALO</span></div><div class="rows" id="rows"></div></section></div>
-<footer class="foot"><span><b>F1 2D SIMULATOR</b> · PROJETO EM DESENVOLVIMENTO</span><span>SIMULAÇÃO LOCAL · PROGRESSO SALVO NESTE NAVEGADOR</span></footer>
+<div class="layout"><section class="panel"><div class="panelhead"><div><small>KART TRACK</small><h2>Traçado do kartódromo</h2></div><span class="tag">KART 2T · BR</span></div><canvas id="track" class="track" width="900" height="560" aria-label="Traçado 2D demonstrativo com os karts"></canvas><div class="trackfoot"><span><i class="yellowdot"></i>22 KARTS EM PISTA</span><span>CLIQUE EM UM KART PARA SELECIONAR</span></div><div class="selectedbox" id="selectedbox">Selecione um kartista na pista ou na classificação.<b id="selectedpos"></b></div></section>
+<section class="panel"><div class="panelhead"><div><small>LIVE TIMING</small><h2>Classificação</h2></div><span class="eyebrow" id="live">● LIVE</span></div><div class="tablehead"><span>POS</span><span>KARTISTA / EQUIPE</span><span>VOLTA</span><span style="text-align:right">INTERVALO</span></div><div class="rows" id="rows"></div></section></div>
+<footer class="foot"><span><b>KART 2T MANAGER</b> · PROJETO EM DESENVOLVIMENTO</span><span>SIMULAÇÃO LOCAL · PROGRESSO SALVO NESTE NAVEGADOR</span></footer>
 </main>
 <script>
 (function(){
 'use strict';
 const teams=[
-['Max Verstappen','Red Bull','#3671C6',1,.986],['Yuki Tsunoda','Red Bull','#3671C6',22,.965],
-['Lando Norris','McLaren','#FF8000',4,.981],['Oscar Piastri','McLaren','#FF8000',81,.978],
-['Charles Leclerc','Ferrari','#E8002D',16,.979],['Lewis Hamilton','Ferrari','#E8002D',44,.974],
-['George Russell','Mercedes','#27F4D2',63,.973],['Kimi Antonelli','Mercedes','#27F4D2',12,.956],
-['Fernando Alonso','Aston Martin','#229971',14,.954],['Lance Stroll','Aston Martin','#229971',18,.941],
-['Pierre Gasly','Alpine','#FF87BC',10,.948],['Jack Doohan','Alpine','#FF87BC',7,.932],
-['Alexander Albon','Williams','#64C4FF',23,.951],['Carlos Sainz','Williams','#64C4FF',55,.958],
-['Liam Lawson','Racing Bulls','#6692FF',30,.944],['Isack Hadjar','Racing Bulls','#6692FF',6,.939],
-['Esteban Ocon','Haas','#B6BABD',31,.943],['Oliver Bearman','Haas','#B6BABD',87,.936],
-['Nico Hülkenberg','Kick Sauber','#52E252',27,.942],['Gabriel Bortoleto','Kick Sauber','#52E252',5,.934],
-['Sergio Pérez','Cadillac','#D8D8D8',11,.938],['Valtteri Bottas','Cadillac','#D8D8D8',77,.937]
+["Arthur Almeida","Equipe Aurora","#f5d400",7,0.986],
+["Bruno Martins","Equipe Aurora","#f5d400",22,0.965],
+["Caio Ribeiro","Equipe Veloce","#ff8000",4,0.981],
+["Daniel Costa","Equipe Veloce","#ff8000",81,0.978],
+["Enzo Carvalho","Equipe Scuderia Sul","#e8002d",16,0.979],
+["Felipe Rocha","Equipe Scuderia Sul","#e8002d",44,0.974],
+["Gustavo Ferreira","Equipe Nitro","#27f4d2",63,0.973],
+["Heitor Mendes","Equipe Nitro","#27f4d2",12,0.956],
+["Igor Santos","Equipe Apex Kart","#229971",14,0.954],
+["João Pedro Lima","Equipe Apex Kart","#229971",18,0.941],
+["Kaique Oliveira","Equipe Thunder","#ff87bc",10,0.948],
+["Lucas Nascimento","Equipe Thunder","#ff87bc",9,0.932],
+["Matheus Barros","Equipe Racing One","#64c4ff",23,0.951],
+["Miguel Cardoso","Equipe Racing One","#64c4ff",55,0.958],
+["Nicolas Souza","Equipe Kart Pro","#6692ff",30,0.944],
+["Otávio Gomes","Equipe Kart Pro","#6692ff",6,0.939],
+["Pedro Henrique","Equipe Speed Lab","#b6babd",31,0.943],
+["Rafael Teixeira","Equipe Speed Lab","#b6babd",87,0.936],
+["Samuel Araújo","Equipe Grid Motorsport","#52e252",27,0.942],
+["Thiago Moreira","Equipe Grid Motorsport","#52e252",5,0.934],
+["Vinícius Freitas","Equipe Brasil Kart","#d8d8d8",11,0.938],
+["William Castro","Equipe Brasil Kart","#d8d8d8",77,0.937]
 ];
 const points=[[.20,.73],[.34,.79],[.49,.77],[.63,.69],[.77,.66],[.83,.56],[.80,.47],[.72,.43],[.64,.45],[.57,.51],[.49,.49],[.43,.42],[.35,.32],[.25,.31],[.18,.39],[.17,.50],[.13,.61],[.20,.73]];;
 let cars=[],running=false,speed=1,elapsed=0,selected=-1,timer=null,phase='grid',lights=5,lightTick=0;
 const $=id=>document.getElementById(id),canvas=$('track'),ctx=canvas.getContext('2d');
 function fresh(){cars=teams.map((t,i)=>({id:i,name:t[0],team:t[1],color:t[2],number:t[3],pace:t[4],grid:i,progress:0,position:i+1,gap:0}));elapsed=0;selected=-1;phase='grid';lights=5;lightTick=0;save();render()}
-function save(){try{localStorage.setItem('f1-2d-race',JSON.stringify({version:3,cars,elapsed,speed}))}catch(e){}}
-function load(){try{const s=JSON.parse(localStorage.getItem('f1-2d-race')||'null');if(s&&s.version===3&&Array.isArray(s.cars)&&s.cars.length===22&&s.cars.every(c=>Number.isFinite(c.progress)&&typeof c.name==='string')){cars=s.cars.map((c,i)=>({...c,grid:i}));elapsed=Number.isFinite(s.elapsed)?s.elapsed:0;speed=[1,2,4,8].includes(s.speed)?s.speed:1;phase=cars.some(c=>c.progress>0)?'race':'grid';return}}catch(e){}fresh()}
+function save(){try{localStorage.setItem('kart-2t-race',JSON.stringify({version:4,cars,elapsed,speed}))}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem('kart-2t-race')||'null');if(s&&s.version===4&&Array.isArray(s.cars)&&s.cars.length===22&&s.cars.every(c=>Number.isFinite(c.progress)&&typeof c.name==='string')){cars=s.cars.map((c,i)=>({...c,grid:i}));elapsed=Number.isFinite(s.elapsed)?s.elapsed:0;speed=[1,2,4,8].includes(s.speed)?s.speed:1;phase=cars.some(c=>c.progress>0)?'race':'grid';return}}catch(e){}fresh()}
 const trackSamples=[];function buildTrack(){trackSamples.length=0;const n=points.length-1;for(let i=0;i<n;i++){const p0=points[(i-1+n)%n],p1=points[i],p2=points[(i+1)%n],p3=points[(i+2)%n];for(let j=0;j<18;j++){const t=j/18,t2=t*t,t3=t2*t;const x=.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3);const y=.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3);trackSamples.push([x*900,y*560])}}let total=0;trackSamples.forEach((p,i)=>{if(i)total+=Math.hypot(p[0]-trackSamples[i-1][0],p[1]-trackSamples[i-1][1]);p.push(total)});trackSamples.total=total}buildTrack();
 function pointAt(fraction){const d=((fraction%1)+1)%1*trackSamples.total;let lo=0,hi=trackSamples.length-1;while(lo<hi){const mid=(lo+hi)>>1;if(trackSamples[mid][2]<d)lo=mid+1;else hi=mid}const b=trackSamples[lo],a=trackSamples[(lo-1+trackSamples.length)%trackSamples.length],span=b[2]-a[2]||1,t=Math.max(0,Math.min(1,(d-a[2])/span));return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}
 function tangentAtStart(){const a=pointAt(0),b=pointAt(.002),dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return [dx/l,dy/l,-dy/l,dx/l]}
@@ -122,7 +133,7 @@ const [sx,sy]=pointAt(0),[tx,ty]=tangentAtStart();ctx.save();ctx.translate(sx,sy
 if(phase==='grid'||phase==='lights'){ctx.fillStyle='#202830';ctx.fillRect(365,28,170,54);for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(390+i*30,55,9,0,Math.PI*2);ctx.fillStyle=phase==='lights'&&i<lights?'#f01828':'#343c45';ctx.fill();ctx.strokeStyle='#69737d';ctx.lineWidth=2;ctx.stroke()}if(phase==='grid'){ctx.fillStyle='#f5d400';ctx.font='bold 12px Arial';ctx.fillText('AGUARDANDO LARGADA',365,103)}}
 cars.forEach(c=>{const [x,y]=position(c);ctx.beginPath();ctx.arc(x,y,c.id===selected?14:10,0,Math.PI*2);ctx.fillStyle=c.color;ctx.fill();ctx.lineWidth=c.id===selected?3:1.5;ctx.strokeStyle=c.id===selected?'#fff':'#080b0e';ctx.stroke();ctx.fillStyle='#080b0e';ctx.font='bold 9px Arial';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(c.number,x,y)})}
 function renderRows(){const rows=$('rows');rows.innerHTML='';cars.forEach(c=>{const b=document.createElement('button');b.className='driver'+(c.id===selected?' selected':'');b.innerHTML='<strong class="pos">'+String(c.position).padStart(2,'0')+'</strong><span class="who"><i class="stripe" style="background:'+c.color+'"></i><span><b></b><small></small></span></span><span class="lap">'+Math.min(12,Math.floor(c.progress)+1)+'</span><span class="gap">'+(c.position===1?'LÍDER':'+'+c.gap.toFixed(3)+'s')+'</span>';b.querySelector('.who b').textContent=c.name;b.querySelector('.who small').textContent=c.team;b.addEventListener('click',()=>{selected=c.id;render()});rows.appendChild(b)})}
-function render(){cars.sort((a,b)=>b.progress-a.progress);cars.forEach((c,i)=>{c.position=i+1;c.gap=i?Math.max(0,(cars[0].progress-c.progress)*78):0});draw();renderRows();const leader=cars[0],lap=Math.min(12,Math.floor(leader.progress)+1);$('lapstat').innerHTML=lap+' <em>/ 12</em>';$('clock').textContent=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');$('toggle').textContent=phase==='grid'?'▶ INICIAR LARGADA':phase==='lights'?'● LUZES '+lights:running?'Ⅱ PAUSAR':phase==='finished'?'CORRIDA FINALIZADA':'▶ RETOMAR';$('toggle').disabled=phase==='finished';$('status').textContent=phase==='finished'?'CORRIDA FINALIZADA':phase==='lights'?'LUZES DE LARGADA':phase==='grid'?'CARROS NO GRID':running?'AO VIVO':'SIMULAÇÃO PAUSADA';$('led').className='led'+(running?' on':'');$('live').textContent=running?'● AO VIVO':'● LIVE';const c=cars.find(x=>x.id===selected);$('selectedbox').innerHTML=c?'<span><b>#'+c.number+' '+escapeText(c.name)+'</b> · '+escapeText(c.team)+'</span><b style="color:var(--yellow)">'+(phase==='grid'?'GRID '+(c.grid+1):'P'+c.position)+'</b>':'Selecione um piloto na pista ou na classificação.'}
+function render(){cars.sort((a,b)=>b.progress-a.progress);cars.forEach((c,i)=>{c.position=i+1;c.gap=i?Math.max(0,(cars[0].progress-c.progress)*78):0});draw();renderRows();const leader=cars[0],lap=Math.min(12,Math.floor(leader.progress)+1);$('lapstat').innerHTML=lap+' <em>/ 12</em>';$('clock').textContent=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');$('toggle').textContent=phase==='grid'?'▶ INICIAR LARGADA':phase==='lights'?'● LUZES '+lights:running?'Ⅱ PAUSAR':phase==='finished'?'CORRIDA FINALIZADA':'▶ RETOMAR';$('toggle').disabled=phase==='finished';$('status').textContent=phase==='finished'?'CORRIDA FINALIZADA':phase==='lights'?'LUZES DE LARGADA':phase==='grid'?'KARTS NO GRID':running?'AO VIVO':'SIMULAÇÃO PAUSADA';$('led').className='led'+(running?' on':'');$('live').textContent=running?'● AO VIVO':'● LIVE';const c=cars.find(x=>x.id===selected);$('selectedbox').innerHTML=c?'<span><b>#'+c.number+' '+escapeText(c.name)+'</b> · '+escapeText(c.team)+'</span><b style="color:var(--yellow)">'+(phase==='grid'?'GRID '+(c.grid+1):'P'+c.position)+'</b>':'Selecione um kartista na pista ou na classificação.'}
 function escapeText(s){return s.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 let lastFrame=0,saveClock=0;function tick(now){if(!running)return;const dt=Math.min(.05,(now-lastFrame)/1000||.016);lastFrame=now;if(phase==='lights'){lightTick+=dt;if(lightTick>=1){lightTick=0;lights--;if(lights<=0){phase='race';lights=0}}}else if(phase==='race'){for(const c of cars){if(c.progress>=12)continue;const oldLap=Math.floor(c.progress),variation=1+Math.sin(now/1700+c.id*2.1)*.012;c.progress=Math.min(12,c.progress+dt*speed*c.pace*variation/22);if(Math.floor(c.progress)>oldLap)c.lastCrossing=elapsed+dt}elapsed+=dt;if(cars.every(c=>c.progress>=12)){running=false;phase='finished'}}saveClock+=dt;if(saveClock>.5){save();saveClock=0}render();if(running)timer=requestAnimationFrame(tick)}
 function setRunning(v){if(v&&phase==='finished')return;if(v&&phase==='grid'){phase='lights';lights=5;lightTick=0}running=v;if(timer)cancelAnimationFrame(timer);timer=null;if(running){lastFrame=performance.now();timer=requestAnimationFrame(tick)}render()}
@@ -137,15 +148,15 @@ load();document.querySelectorAll('[data-speed]').forEach(b=>b.classList.toggle('
  const initial=content.innerHTML;
  const pages={
  temporada:['TEMPORADA','Temporada demonstrativa','A temporada está pronta para ser configurada. Aqui ficarão os regulamentos, pontuação, etapas e progresso do campeonato.'],
- calendario:['CALENDÁRIO','Calendário da temporada','O calendário reunirá os Grandes Prêmios, circuitos e datas de cada etapa.'],
- classificacao:['CAMPEONATO','Classificação','A tabela de pilotos e construtores será atualizada conforme os resultados das corridas simuladas.'],
- equipes:['GESTÃO','Equipes','Gerencie as escuderias, cores, desempenho dos carros e pilotos titulares.'],
- pilotos:['GESTÃO','Pilotos','Consulte e gerencie os pilotos inscritos na temporada.']
+ calendario:['CALENDÁRIO','Calendário da temporada','O calendário reunirá as etapas, kartódromos e datas do campeonato.'],
+ classificacao:['CAMPEONATO','Classificação','A classificação dos kartistas será atualizada conforme os resultados das etapas simuladas.'],
+ equipes:['GESTÃO','Equipes','Gerencie as equipes, cores, karts e seus kartistas.'],
+ kartistas:['GESTÃO','Pilotos','Consulte e gerencie os kartistas inscritos no campeonato.']
  };
  function page(name){
   document.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
   if(name==='inicio'){content.innerHTML=initial;wireHome();return;}
-  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>Central de gerenciamento do F1 2D Simulator.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
+  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>Central de gerenciamento do Kart 2T Manager.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
  }
  function wireHome(){document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));const cal=document.getElementById('viewCalendar');if(cal)cal.onclick=()=>page('calendario');}
  document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
