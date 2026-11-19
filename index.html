@@ -149,8 +149,29 @@ load();document.querySelectorAll('[data-speed]').forEach(b=>b.classList.toggle('
  }
  function wireHome(){document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));const cal=document.getElementById('viewCalendar');if(cal)cal.onclick=()=>page('calendario');}
  document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
- document.getElementById('openRace').onclick=()=>{document.getElementById('homeview').style.display='none';document.getElementById('raceview').style.display='block';window.scrollTo(0,0)};
- document.getElementById('backHome').onclick=()=>{document.getElementById('raceview').style.display='none';document.getElementById('homeview').style.display='grid';window.scrollTo(0,0)};
+ function showRace(){
+  const home=document.getElementById('homeview');
+  const race=document.getElementById('raceview');
+  if(!home||!race)return;
+  home.style.display='none';
+  race.style.display='block';
+  race.removeAttribute('hidden');
+  window.scrollTo(0,0);
+ }
+ function showHome(){
+  const home=document.getElementById('homeview');
+  const race=document.getElementById('raceview');
+  if(!home||!race)return;
+  race.style.display='none';
+  home.style.display='grid';
+  window.scrollTo(0,0);
+ }
+ document.addEventListener('click',function(event){
+  if(event.target.closest('#openRace')){event.preventDefault();showRace();}
+  if(event.target.closest('#backHome')){event.preventDefault();showHome();}
+ });
+ window.openRaceScreen=showRace;
+ window.backToHomeScreen=showHome;
 })();
 </script>
 </body></html>
