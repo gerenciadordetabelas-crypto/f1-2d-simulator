@@ -320,6 +320,7 @@ function tick(now){
  render();if(running)timer=requestAnimationFrame(tick)
 }
 function setRunning(v){if(v&&phase==='finished')return;if(v&&phase==='grid'){phase='lights';lights=5;lightTick=0}running=v;if(timer)cancelAnimationFrame(timer);timer=null;if(running){lastFrame=performance.now();timer=requestAnimationFrame(tick)}render()}
+window.prepareQuickKartRace=function(id){setRunning(false);applyTrackLayout(id);try{localStorage.removeItem('kart-2t-race')}catch(e){}fresh();return true};
 $('toggle').addEventListener('click',()=>setRunning(!running));$('reset').addEventListener('click',()=>{setRunning(false);fresh()});document.querySelectorAll('[data-speed]').forEach(b=>b.addEventListener('click',()=>{speed=Number(b.dataset.speed);document.querySelectorAll('[data-speed]').forEach(x=>x.classList.toggle('active',x===b));if(running){cancelAnimationFrame(timer);lastFrame=performance.now();timer=requestAnimationFrame(tick)}save()}));
 canvas.addEventListener('click',e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*900,y=(e.clientY-r.top)/r.height*560;let best=Infinity,id=-1;cars.forEach(c=>{const p=position(c),d=(p[0]-x)**2+(p[1]-y)**2;if(d<best){best=d;id=c.id}});if(best<1800){selected=id;render()}});
 load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.classList.toggle('active',Number(b.dataset.speed)===speed));render();
@@ -348,7 +349,7 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
  }
  function showTracks(){
   home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='PISTAS CADASTRADAS';seasonPill.textContent=tracks.length+' '+(tracks.length===1?'PISTA':'PISTAS');
-  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>Kartódromos oficiais cadastrados no Kart 2T Manager.</p></section><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">'+tracks.map((t,i)=>'<section class="homecard"><div class="cardtop"><div><small>PISTA '+String(i+1).padStart(2,'0')+'</small><h2>'+t.name+'</h2></div><span class="tag">'+t.type.toUpperCase()+'</span></div><div style="padding:14px">'+trackSvg(t)+'<p style="color:var(--muted);font-size:11px;line-height:1.6">'+t.detail+'</p><div style="color:var(--yellow);font-size:10px;font-weight:bold;letter-spacing:1px">'+t.city+'</div></div></section>').join('')+'</div>';
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>Kartódromos oficiais cadastrados no Kart 2T Manager.</p></section><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">'+tracks.map((t,i)=>'<section class="homecard"><div class="cardtop"><div><small>PISTA '+String(i+1).padStart(2,'0')+'</small><h2>'+t.name+'</h2></div><span class="tag">'+t.type.toUpperCase()+'</span></div><div style="padding:14px">'+trackSvg(t)+'<p style="color:var(--muted);font-size:11px;line-height:1.6">'+t.detail+'</p><div style="color:var(--yellow);font-size:10px;font-weight:bold;letter-spacing:1px;margin-bottom:14px">'+t.city+'</div><button class="btn primary" data-quick-track="'+t.id+'" style="width:100%">▶ SIMULAR CORRIDA RÁPIDA</button></div></section>').join('')+'</div>';content.querySelectorAll('[data-quick-track]').forEach(b=>b.addEventListener('click',()=>openRace(b.dataset.quickTrack,0,true)));
  }
  function showChampionships(){
   home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='MEUS CAMPEONATOS';seasonPill.textContent='KART 2T MANAGER';
@@ -382,16 +383,18 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
   const eyebrow=content.querySelector('.welcome .eyebrow');if(eyebrow)eyebrow.textContent='CAMPEONATO BRASILEIRO MIRIM 2T';
   const welcome=content.querySelector('.welcome h1');if(welcome)welcome.innerHTML='Bem-vindo ao <span>Mirim 2T.</span>';
  }
- function openRace(trackId,raceNo){
+ function openRace(trackId,raceNo,quick=false){
   const t=tracks.find(x=>x.id===trackId)||tracks[0];
   if(!t)return;
-  if(window.setKartTrackLayout)window.setKartTrackLayout(t.id);try{localStorage.setItem('kart-2t-track',t.id);localStorage.setItem('kart-2t-race-event',JSON.stringify({championship:championship.name,track:t.name,trackId:t.id,race:raceNo}))}catch(e){}
+  if(quick&&window.prepareQuickKartRace)window.prepareQuickKartRace(t.id);
+  else if(window.setKartTrackLayout)window.setKartTrackLayout(t.id);
+  try{localStorage.setItem('kart-2t-track',t.id);localStorage.setItem('kart-2t-race-event',JSON.stringify({championship:quick?'Treino livre':championship.name,track:t.name,trackId:t.id,race:raceNo,quick}))}catch(e){}
   const home=document.getElementById('homeview'),race=document.getElementById('raceview');
   home.style.display='none';race.style.display='block';window.scrollTo(0,0);
   const h=document.getElementById('raceTrackTitle');if(h)h.innerHTML=t.name.replace('Kartódromo ','Kartódromo <span>')+'</span>';
-  const sub=document.getElementById('raceTrackSub');if(sub)sub.textContent='◉ Etapa '+(trackId==='serra-azul'?'01':'02')+' · '+t.name+' · '+raceNo+'ª corrida';
+  const sub=document.getElementById('raceTrackSub');if(sub)sub.textContent=quick?'◉ TESTE RÁPIDO · SESSÃO INDEPENDENTE':'◉ Etapa '+(trackId==='serra-azul'?'01':'02')+' · '+t.name+' · '+raceNo+'ª corrida';
   const layout=document.getElementById('raceLayoutName');if(layout)layout.textContent=t.name;
-  const ey=document.querySelector('#raceview .heading .eyebrow');if(ey)ey.textContent=championship.name.toUpperCase();
+  const ey=document.querySelector('#raceview .heading .eyebrow');if(ey)ey.textContent=quick?'TESTE RÁPIDO DE PISTA':championship.name.toUpperCase();
  }
  sidebar.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(!home.classList.contains('pre-championship'))page(b.dataset.page)}));
  back.addEventListener('click',showMainMenu);
