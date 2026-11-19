@@ -107,9 +107,9 @@
 </div>
 <main class="shell" id="raceview" style="display:none">
 <header class="top"><button class="btn secondary" id="backHome">← MENU PRINCIPAL</button><div class="brand"><div class="mark">K2T</div><div><b>KART 2T <span>MANAGER</span></b><small>KART CONTROL · VERSÃO INICIAL</small></div></div><div class="status"><i class="led" id="led"></i><span id="status">SIMULAÇÃO PAUSADA</span></div></header>
-<section class="heading"><div><div class="eyebrow">CAMPEONATO DEMONSTRATIVO · KART 2T</div><h1>Etapa de <span>abertura</span></h1><p>◉ Kartódromo demonstrativo · Brasil</p></div><div class="stats"><div><small>VOLTA</small><strong id="lapstat">1 <em>/ 12</em></strong></div><div><small>TEMPO DE SESSÃO</small><strong id="clock">00:00</strong></div><div><small>CATEGORIA</small><strong>Kart <em>2T</em></strong></div></div></section>
+<section class="heading"><div><div class="eyebrow">CAMPEONATO BRASILEIRO MIRIM 2T</div><h1 id="raceTrackTitle">Kartódromo <span>Serra Azul</span></h1><p id="raceTrackSub">◉ Etapa 01 · Brasil</p></div><div class="stats"><div><small>VOLTA</small><strong id="lapstat">1 <em>/ 12</em></strong></div><div><small>TEMPO DE SESSÃO</small><strong id="clock">00:00</strong></div><div><small>CATEGORIA</small><strong>Kart <em>2T</em></strong></div></div></section>
 <section class="controls"><div class="group"><span class="hint">CONTROLE DE CORRIDA</span><button class="btn primary" id="toggle">▶ INICIAR</button><button class="btn" id="reset">↻ REINICIAR</button></div><div class="group"><span class="hint">VELOCIDADE</span><button class="speed active" data-speed="1">1x</button><button class="speed" data-speed="2">2x</button><button class="speed" data-speed="4">4x</button><button class="speed" data-speed="8">8x</button></div></section>
-<div class="layout"><section class="panel"><div class="panelhead"><div><small>KART TRACK</small><h2>Traçado do kartódromo</h2></div><span class="tag">KART 2T · BR</span></div><canvas id="track" class="track" width="900" height="560" aria-label="Traçado 2D demonstrativo com os karts"></canvas><div class="trackfoot"><span><i class="yellowdot"></i>22 KARTS EM PISTA</span><span>CLIQUE EM UM KART PARA SELECIONAR</span></div><div class="selectedbox" id="selectedbox">Selecione um kartista na pista ou na classificação.<b id="selectedpos"></b></div></section>
+<div class="layout"><section class="panel"><div class="panelhead"><div><small>TRAÇADO OFICIAL</small><h2 id="raceLayoutName">Serra Azul</h2></div><span class="tag">MIRIM 2T · BR</span></div><canvas id="track" class="track" width="900" height="560" aria-label="Traçado 2D demonstrativo com os karts"></canvas><div class="trackfoot"><span><i class="yellowdot"></i>22 KARTS EM PISTA</span><span>CLIQUE EM UM KART PARA SELECIONAR</span></div><div class="selectedbox" id="selectedbox">Selecione um kartista na pista ou na classificação.<b id="selectedpos"></b></div></section>
 <section class="panel"><div class="panelhead"><div><small>LIVE TIMING</small><h2>Classificação</h2></div><span class="eyebrow" id="live">● LIVE</span></div><div class="tablehead"><span>POS</span><span>KARTISTA / EQUIPE</span><span>VOLTA</span><span style="text-align:right">INTERVALO</span></div><div class="rows" id="rows"></div></section></div>
 <footer class="foot"><span><b>KART 2T MANAGER</b> · PROJETO EM DESENVOLVIMENTO</span><span>SIMULAÇÃO LOCAL · PROGRESSO SALVO NESTE NAVEGADOR</span></footer>
 </main>
@@ -140,7 +140,12 @@ const teams=[
 ["Vinícius Freitas","Equipe Brasil Kart","#d8d8d8",11,0.938],
 ["William Castro","Equipe Brasil Kart","#d8d8d8",77,0.937]
 ];
-const points=[[.15,.78],[.32,.78],[.50,.78],[.70,.78],[.78,.77],[.83,.72],[.84,.65],[.81,.59],[.75,.56],[.68,.56],[.62,.60],[.57,.64],[.52,.61],[.49,.55],[.51,.49],[.57,.46],[.66,.46],[.74,.44],[.80,.39],[.82,.32],[.79,.25],[.73,.21],[.64,.20],[.54,.20],[.46,.23],[.42,.28],[.43,.34],[.47,.39],[.45,.44],[.39,.47],[.32,.47],[.26,.44],[.22,.39],[.19,.32],[.15,.29],[.11,.32],[.10,.39],[.12,.46],[.17,.52],[.19,.59],[.17,.66],[.13,.71],[.15,.78]];
+const trackChoice=(()=>{try{return localStorage.getItem('kart-2t-track')||'serra-azul'}catch(e){return 'serra-azul'}})();
+const trackLayouts={
+ 'serra-azul':[[.12,.77],[.29,.77],[.46,.77],[.62,.77],[.77,.77],[.84,.72],[.86,.62],[.82,.54],[.74,.51],[.68,.55],[.64,.64],[.57,.68],[.51,.63],[.49,.54],[.54,.47],[.65,.44],[.76,.40],[.82,.32],[.78,.23],[.68,.19],[.56,.20],[.48,.25],[.43,.34],[.35,.39],[.25,.39],[.18,.34],[.12,.39],[.10,.49],[.15,.57],[.22,.60],[.25,.68],[.20,.73],[.12,.77]],
+ 'vale-do-sol':[[.12,.75],[.28,.75],[.43,.75],[.58,.75],[.73,.75],[.83,.70],[.86,.60],[.82,.52],[.74,.48],[.66,.47],[.59,.43],[.55,.35],[.58,.27],[.67,.23],[.78,.25],[.84,.31],[.83,.39],[.76,.43],[.68,.40],[.62,.34],[.53,.31],[.44,.32],[.37,.38],[.31,.47],[.24,.52],[.17,.50],[.12,.44],[.10,.35],[.14,.28],[.23,.23],[.33,.22],[.41,.25],[.45,.31],[.42,.40],[.34,.49],[.28,.58],[.25,.66],[.19,.72],[.12,.75]]
+};
+const points=trackLayouts[trackChoice]||trackLayouts['serra-azul'];
 // Move the start/finish to the end of the long main straight. The full grid is laid back along that straight.
 points.splice(points.length-1,1);
 const startIndex=3,rotatedPoints=points.slice(startIndex).concat(points.slice(0,startIndex));
@@ -303,59 +308,65 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
 </script>
 <script id="homeNavigation">
 (function(){
- const home=document.getElementById('homeview');
- const content=document.getElementById('homePageContent');
- const dashboard=content.innerHTML;
- const sidebar=home.querySelector('.sidebar');
- const back=document.getElementById('backChampionships');
- const topStatus=document.getElementById('topStatus');
- const seasonPill=document.getElementById('seasonPill');
- const demo={name:'Campeonato Demonstrativo',subtitle:'Temporada inicial · Brasil',category:'KART 2T'};
+ const home=document.getElementById('homeview'),content=document.getElementById('homePageContent');
+ const dashboard=content.innerHTML,sidebar=home.querySelector('.sidebar');
+ const back=document.getElementById('backChampionships'),topStatus=document.getElementById('topStatus'),seasonPill=document.getElementById('seasonPill');
+ const championship={name:'Campeonato Brasileiro Mirim 2T',subtitle:'Temporada 2026 · Brasil',category:'KART 2T'};
+ const tracks=[
+  {id:'serra-azul',name:'Kartódromo Serra Azul',city:'Brasil',type:'Técnico e sinuoso',detail:'Sequência de curvas de baixa e média, cotovelos e uma reta principal para disputas de freada.',races:['Corrida 1','Corrida 2','Corrida 3','Corrida 4'],svg:'M30 190 L105 190 Q130 190 130 165 L130 140 Q130 115 155 115 L215 115 Q240 115 240 140 L240 160 Q240 185 265 185 L300 185 Q330 185 330 155 L330 115 Q330 85 300 85 L270 85 Q245 85 245 60 Q245 35 215 35 L145 35 Q115 35 115 65 L115 85 Q115 110 85 110 L55 110 Q25 110 25 140 L25 165 Q25 190 30 190 Z'},
+  {id:'vale-do-sol',name:'Kartódromo Vale do Sol',city:'Brasil',type:'Fluido e veloz',detail:'Traçado mais aberto, com curvas longas, mudanças de direção e setores de aceleração.',races:['Corrida 1','Corrida 2','Corrida 3','Corrida 4'],svg:'M28 175 L95 175 Q125 175 125 145 L125 115 Q125 85 155 85 L205 85 Q235 85 235 55 Q235 25 265 25 L315 25 Q345 25 345 55 L345 85 Q345 115 315 115 L285 115 Q255 115 255 145 L255 160 Q255 185 225 185 L170 185 Q140 185 140 155 L140 140 Q140 115 110 115 L75 115 Q45 115 45 145 L45 155 Q45 175 28 175 Z'}
+ ];
+ function trackSvg(t){return '<svg viewBox="0 0 380 220" role="img" aria-label="Layout ilustrativo do '+t.name+'" style="width:100%;height:auto;display:block;background:#0c1116;border:1px solid #29313a;border-radius:4px"><path d="'+t.svg+'" fill="none" stroke="#77818a" stroke-width="34" stroke-linejoin="round" stroke-linecap="round"/><path d="'+t.svg+'" fill="none" stroke="#e5e9ec" stroke-width="2" stroke-linejoin="round" stroke-dasharray="9 8"/><path d="M30 190 l0 -18 M20 181 l20 0" stroke="#f5d400" stroke-width="4"/><text x="24" y="208" fill="#f5d400" font-size="9" font-weight="bold">LARGADA</text></svg>'}
  function showChampionships(){
-  home.classList.add('pre-championship');
-  sidebar.querySelectorAll('.navlabel,.navitem').forEach(el=>{el.style.display='';});
-  sidebar.querySelectorAll('.navitem').forEach(el=>el.classList.toggle('active',el.dataset.page==='inicio'));
-  back.style.display='none';
-  topStatus.textContent='MEUS CAMPEONATOS';
-  seasonPill.textContent='KART 2T MANAGER';
-  content.innerHTML='<section class="championship-entry"><div class="eyebrow">CENTRAL DE GERENCIAMENTO</div><h1>Meus <span style="color:var(--yellow)">campeonatos.</span></h1><p>Selecione um campeonato para acessar sua temporada, calendário, classificação, equipes e kartistas.</p></section><div class="championship-list"><button class="championship-card" id="openDemoChampionship"><div class="championship-art"><strong>KART 2T</strong><span>CAMPEONATO</span></div><div class="championship-info"><small>CAMPEONATO DEMONSTRATIVO</small><h2>'+demo.name+'</h2><p>'+demo.subtitle+' · Categoria '+demo.category+'</p></div><div class="championship-open"><span>ABRIR CAMPEONATO</span><b>›</b></div></button></div>';
-  document.getElementById('openDemoChampionship').addEventListener('click',openChampionship);
+  home.classList.add('pre-championship');back.style.display='none';topStatus.textContent='MEUS CAMPEONATOS';seasonPill.textContent='KART 2T MANAGER';
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">CAMPEONATO OFICIAL · BRASIL</div><h1>Meus <span style="color:var(--yellow)">campeonatos.</span></h1><p>Selecione o campeonato para acessar as etapas, corridas, classificação e gestão.</p></section><div class="championship-list"><button class="championship-card" id="openOfficialChampionship"><div class="championship-art" style="background:radial-gradient(ellipse at 78% 40%,#8a7130,#202830 65%)"><strong>MIRIM 2T</strong><span>BRASIL · OFICIAL</span></div><div class="championship-info"><small>PRIMEIRO CAMPEONATO OFICIAL</small><h2>'+championship.name+'</h2><p>Brasil · Kart 2T · 2 pistas · 8 corridas</p></div><div class="championship-open"><span>ABRIR CAMPEONATO</span><b>›</b></div></button></div>';
+  document.getElementById('openOfficialChampionship').addEventListener('click',openChampionship);
  }
  function openChampionship(){
-  home.classList.remove('pre-championship');
-  back.style.display='inline-block';
-  topStatus.textContent='CAMPEONATO SELECIONADO';
-  seasonPill.textContent=demo.name.toUpperCase();
-  content.innerHTML=dashboard;
-  sidebar.querySelectorAll('.navlabel,.navitem').forEach(el=>{el.style.display='';});
-  wirePages();
-  page('inicio');
+  home.classList.remove('pre-championship');back.style.display='inline-block';topStatus.textContent='CAMPEONATO OFICIAL';seasonPill.textContent='MIRIM 2T';
+  content.innerHTML=dashboard;wireDashboard();page('inicio');
  }
  const pages={
-  temporada:['TEMPORADA','Temporada demonstrativa','A temporada está pronta para ser configurada. Aqui ficarão os regulamentos, pontuação, etapas e progresso do campeonato.'],
-  calendario:['CALENDÁRIO','Calendário da temporada','O calendário reunirá as etapas, kartódromos e datas do campeonato.'],
-  classificacao:['CAMPEONATO','Classificação','A classificação dos kartistas será atualizada conforme os resultados das etapas simuladas.'],
-  equipes:['GESTÃO','Equipes','Gerencie as equipes, cores, karts e seus kartistas.'],
-  kartistas:['GESTÃO','Kartistas','Consulte e gerencie os kartistas inscritos no campeonato.']
+  temporada:['TEMPORADA','Campeonato Brasileiro Mirim 2T','Primeira temporada oficial. Formato inicial: duas pistas, quatro corridas em cada pista, totalizando oito corridas.'],
+  calendario:['CALENDÁRIO','Calendário de corridas',''],
+  classificacao:['CAMPEONATO','Classificação','A classificação será consolidada com os resultados das oito corridas.'],
+  equipes:['GESTÃO','Equipes','Gerencie as equipes inscritas neste campeonato.'],
+  kartistas:['GESTÃO','Kartistas','Consulte e gerencie os kartistas inscritos no Campeonato Brasileiro Mirim 2T.']
  };
+ function calendarMarkup(){
+  return '<section class="welcome"><div class="eyebrow">TEMPORADA 2026 · 2 ETAPAS</div><h1>Calendário <span>oficial.</span></h1><p>Dois kartódromos criados para o campeonato, com quatro corridas em cada etapa.</p></section><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">'+tracks.map((t,i)=>'<section class="homecard"><div class="cardtop"><div><small>ETAPA '+String(i+1).padStart(2,'0')+'</small><h2>'+t.name+'</h2></div><span class="tag">'+t.type.toUpperCase()+'</span></div><div style="padding:14px">'+trackSvg(t)+'<p style="color:var(--muted);font-size:11px;line-height:1.6">'+t.detail+'</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+t.races.map((race,j)=>'<button class="btn '+(j===0?'primary':'')+'" data-race-track="'+t.id+'" data-race-number="'+(j+1)+'" style="text-align:left">▶ '+race+'</button>').join('')+'</div></div></section>').join('')+'</div>';
+ }
  function page(name){
   sidebar.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
   if(name==='inicio'){content.innerHTML=dashboard;wireDashboard();return;}
-  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>'+demo.name+' · Central de gerenciamento do Kart 2T Manager.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
+  if(name==='calendario'){content.innerHTML=calendarMarkup();content.querySelectorAll('[data-race-track]').forEach(b=>b.addEventListener('click',()=>openRace(b.dataset.raceTrack,Number(b.dataset.raceNumber))));return;}
+  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>'+championship.name+' · Temporada 2026.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
  }
  function wireDashboard(){
-  document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
+  content.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
   const cal=document.getElementById('viewCalendar');if(cal)cal.onclick=()=>page('calendario');
+  const title=content.querySelector('.nextgp h2');if(title)title.textContent='Kartódromo Serra Azul';
+  const desc=content.querySelector('.nextgp p');if(desc)desc.textContent='Etapa 01 · Campeonato Brasileiro Mirim 2T';
+  const eyebrow=content.querySelector('.welcome .eyebrow');if(eyebrow)eyebrow.textContent='CAMPEONATO BRASILEIRO MIRIM 2T';
+  const welcome=content.querySelector('.welcome h1');if(welcome)welcome.innerHTML='Bem-vindo ao <span>Mirim 2T.</span>';
  }
- function wirePages(){wireDashboard();}
+ function openRace(trackId,raceNo){
+  const t=tracks.find(x=>x.id===trackId)||tracks[0];
+  try{localStorage.setItem('kart-2t-track',t.id);localStorage.setItem('kart-2t-race-event',JSON.stringify({championship:championship.name,track:t.name,trackId:t.id,race:raceNo}))}catch(e){}
+  const home=document.getElementById('homeview'),race=document.getElementById('raceview');
+  home.style.display='none';race.style.display='block';window.scrollTo(0,0);
+  const h=document.getElementById('raceTrackTitle');if(h)h.innerHTML=t.name.replace('Kartódromo ','Kartódromo <span>')+'</span>';
+  const sub=document.getElementById('raceTrackSub');if(sub)sub.textContent='◉ Etapa '+(trackId==='serra-azul'?'01':'02')+' · '+t.name+' · '+raceNo+'ª corrida';
+  const layout=document.getElementById('raceLayoutName');if(layout)layout.textContent=t.name;
+  const ey=document.querySelector('#raceview .heading .eyebrow');if(ey)ey.textContent=championship.name.toUpperCase();
+ }
  sidebar.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(!home.classList.contains('pre-championship'))page(b.dataset.page)}));
  back.addEventListener('click',showChampionships);
  document.addEventListener('click',function(event){
-  if(event.target.closest('#openRace')){event.preventDefault();home.style.display='none';const race=document.getElementById('raceview');race.style.display='block';race.removeAttribute('hidden');window.scrollTo(0,0);}
-  if(event.target.closest('#backHome')){event.preventDefault();document.getElementById('raceview').style.display='none';home.style.display='grid';window.scrollTo(0,0);}
+  if(event.target.closest('#openRace')){event.preventDefault();openRace('serra-azul',1)}
+  if(event.target.closest('#backHome')){event.preventDefault();document.getElementById('raceview').style.display='none';home.style.display='grid';window.scrollTo(0,0)}
  });
- window.openRaceScreen=()=>{home.style.display='none';document.getElementById('raceview').style.display='block';};
- window.backToHomeScreen=()=>{document.getElementById('raceview').style.display='none';home.style.display='grid';};
+ window.openRaceScreen=()=>openRace('serra-azul',1);
  showChampionships();
 })();
 </script>
