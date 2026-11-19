@@ -131,10 +131,10 @@ const trackSamples=[];function buildTrack(){trackSamples.length=0;const n=points
 function pointAt(fraction){const d=((fraction%1)+1)%1*trackSamples.total;let lo=0,hi=trackSamples.length-1;while(lo<hi){const mid=(lo+hi)>>1;if(trackSamples[mid][2]<d)lo=mid+1;else hi=mid}const b=trackSamples[lo],a=trackSamples[(lo-1+trackSamples.length)%trackSamples.length],span=b[2]-a[2]||1,t=Math.max(0,Math.min(1,(d-a[2])/span));return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}
 function tangentAtStart(){const a=pointAt(0),b=pointAt(.002),dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return [dx/l,dy/l,-dy/l,dx/l]}
 function tangentAt(f){const a=pointAt(f-.002),b=pointAt(f+.002),dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return [dx/l,dy/l,-dy/l,dx/l]}
-function gridOffset(c){return -Math.floor(c.grid/2)*27/trackSamples.total}
+function gridOffset(c){return -Math.floor(c.grid/2)*30/trackSamples.total}
 function offsetPoint(f,lane){const [x,y]=pointAt(f),[tx,ty,nx,ny]=tangentAt(f);return [x+nx*lane,y+ny*lane]}
 function gridPosition(c){return offsetPoint(gridOffset(c),c.grid%2===0?-16:16)}
-function position(c){return phase==='grid'||phase==='lights'?gridPosition(c):offsetPoint(c.progress+gridOffset(c),Math.max(-20,Math.min(20,c.laneOffset||0)))} 
+function position(c){return phase==='grid'||phase==='lights'?gridPosition(c):offsetPoint(c.progress+gridOffset(c),Math.max(-30,Math.min(30,c.laneOffset||0)))} 
 function raceDistance(c){return c.progress+gridOffset(c)}
 function enforceNoOverlap(){
   // Physical-space collision guard: no two kart bodies may occupy the same area.
@@ -142,16 +142,16 @@ function enforceNoOverlap(){
     let changed=false;
     for(let i=0;i<cars.length;i++)for(let j=i+1;j<cars.length;j++){
       const a=cars[i],b=cars[j],pa=position(a),pb=position(b),d=Math.hypot(pa[0]-pb[0],pa[1]-pb[1]);
-      if(d>=23)continue;
+      if(d>=25)continue;
       const follower=raceDistance(a)<=raceDistance(b)?a:b;
       const leader=follower===a?b:a;
-      const target=leader.progress+gridOffset(leader)-gridOffset(follower)-24/trackSamples.total;
+      const target=leader.progress+gridOffset(leader)-gridOffset(follower)-26/trackSamples.total;
       if(target>=0&&target<follower.progress){
         follower.progress=target;changed=true;
       }else{
         const original=follower.laneOffset||0;
         let best=original,bestGap=-1;
-        for(const lane of [-20,-10,0,10,20]){
+        for(const lane of [-30,0,30]){
           follower.laneOffset=lane;
           const p=position(follower);
           let nearest=Infinity;
@@ -165,7 +165,7 @@ function enforceNoOverlap(){
     if(!changed)break;
   }
 }
-function draw(){ctx.clearRect(0,0,900,560);ctx.fillStyle='#10151a';ctx.fillRect(0,0,900,560);ctx.beginPath();trackSamples.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash([15,15]);ctx.strokeStyle='#e7e7e7';ctx.lineWidth=77;ctx.stroke();ctx.lineDashOffset=15;ctx.strokeStyle='#d94a45';ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#273039';ctx.lineWidth=68;ctx.stroke();ctx.strokeStyle='#dce1e5';ctx.lineWidth=3;ctx.stroke();ctx.strokeStyle='#7e8992';ctx.lineWidth=1;ctx.stroke();
+function draw(){ctx.clearRect(0,0,900,560);ctx.fillStyle='#10151a';ctx.fillRect(0,0,900,560);ctx.beginPath();trackSamples.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash([15,15]);ctx.strokeStyle='#e7e7e7';ctx.lineWidth=96;ctx.stroke();ctx.lineDashOffset=15;ctx.strokeStyle='#d94a45';ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#273039';ctx.lineWidth=84;ctx.stroke();ctx.strokeStyle='#dce1e5';ctx.lineWidth=3;ctx.stroke();ctx.strokeStyle='#7e8992';ctx.lineWidth=1;ctx.stroke();
 const [sx,sy]=pointAt(0),[tx,ty]=tangentAtStart();ctx.save();ctx.translate(sx,sy);ctx.rotate(Math.atan2(ty,tx));for(let r=0;r<4;r++)for(let c=0;c<2;c++){ctx.fillStyle=(r+c)%2?'#111':'#f4f4f4';ctx.fillRect(-4+c*7,-28+r*7,7,7)}ctx.restore();ctx.fillStyle='#f5d400';ctx.font='bold 12px Arial';ctx.textAlign='left';ctx.fillText('LARGADA / CHEGADA',sx+28,sy-34);
 if(phase==='grid'||phase==='lights'){ctx.fillStyle='#202830';ctx.fillRect(365,28,170,54);for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(390+i*30,55,9,0,Math.PI*2);ctx.fillStyle=phase==='lights'&&i<lights?'#f01828':'#343c45';ctx.fill();ctx.strokeStyle='#69737d';ctx.lineWidth=2;ctx.stroke()}if(phase==='grid'){ctx.fillStyle='#f5d400';ctx.font='bold 12px Arial';ctx.fillText('AGUARDANDO LARGADA',365,103)}}
 cars.forEach(c=>{
@@ -191,16 +191,16 @@ let lastFrame=0,saveClock=0;function tick(now){
    lightTick+=dt;
    if(lightTick>=1){lightTick=0;lights--;if(lights<=0){phase='race';lights=0}}
  }else if(phase==='race'){
-   const lanes=[-20,-10,0,10,20];
+   const lanes=[-30,0,30];
    for(const c of cars){
      if(c.progress>=12)continue;
      const oldLap=Math.floor(c.progress),variation=1+Math.sin(now/1700+c.id*2.1)*.012;
      const pace=c.pace*variation;
      const nearby=cars.filter(o=>o!==c&&Math.abs(raceDistance(o)-raceDistance(c))<.04);
      const lane=c.laneOffset||0;
-     const blocked=nearby.some(o=>Math.abs((o.laneOffset||0)-lane)<13);
+     const blocked=nearby.some(o=>Math.abs((o.laneOffset||0)-lane)<17);
      if(blocked){
-       const choices=lanes.filter(v=>nearby.every(o=>Math.abs((o.laneOffset||0)-v)>=13));
+       const choices=lanes.filter(v=>nearby.every(o=>Math.abs((o.laneOffset||0)-v)>=17));
        if(choices.length)c.laneOffset=choices.sort((a,b)=>Math.abs(a-lane)-Math.abs(b-lane))[0];
      }else if(Math.abs(lane)>0)c.laneOffset=lane*Math.max(0,1-dt*1.2);
      c.progress=Math.min(12,c.progress+dt*speed*pace/22);
