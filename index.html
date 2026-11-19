@@ -6,6 +6,29 @@
 <style>
 :root{color-scheme:dark;--yellow:#f5d400;--bg:#090b0e;--panel:#12171d;--line:#29313a;--muted:#89939d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -30%,#242a31 0,var(--bg) 60%);color:#f2f4f5;font:14px Inter,Arial,sans-serif;min-height:100vh}.shell{max-width:1500px;margin:auto;padding:0 34px}.top{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:13px;align-items:center}.mark{background:var(--yellow);color:#090b0e;font-weight:1000;font-style:italic;font-size:25px;padding:5px 10px;transform:skew(-8deg)}.brand b{letter-spacing:1px}.brand b span{color:var(--yellow)}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:2px;margin-top:4px}.status{font-size:10px;letter-spacing:1.5px;color:#bbc2c8}.led{display:inline-block;width:7px;height:7px;background:#747d85;border-radius:50%;margin-right:8px}.led.on{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}.heading{display:flex;justify-content:space-between;align-items:end;padding:30px 0 24px}.eyebrow{font-size:9px;letter-spacing:2px;color:var(--yellow);font-weight:bold}.heading h1{font-size:clamp(30px,4vw,44px);margin:8px 0;font-style:italic;letter-spacing:-1px}.heading h1 span{color:#aeb6bd;font-weight:400}.heading p{margin:0;color:var(--muted);font-size:12px}.stats{display:flex;gap:25px}.stats div{border-left:1px solid var(--line);padding-left:15px}.stats small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.2px;margin-bottom:6px}.stats strong{font-size:22px}.stats em{font-size:13px;color:var(--muted);font-style:normal}.controls{display:flex;align-items:center;justify-content:space-between;background:#171d24;border:1px solid var(--line);border-radius:5px;padding:12px 15px;margin-bottom:18px}.group{display:flex;align-items:center;gap:8px}.hint{font-size:9px;letter-spacing:1px;color:var(--muted);font-weight:bold;margin-right:8px}button{font:inherit;cursor:pointer}.btn,.speed{border:1px solid #3a444e;background:#222a32;color:#f2f4f5;border-radius:3px;padding:9px 13px;font-size:10px;font-weight:bold;letter-spacing:.7px}.btn.primary,.speed.active{background:var(--yellow);border-color:var(--yellow);color:#111}.btn:disabled{opacity:.4;cursor:not-allowed}.speed{padding:7px 11px}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(390px,1fr);gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden;min-width:0}.panelhead{height:65px;padding:0 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panelhead small{font-size:8px;letter-spacing:1.8px;color:var(--muted)}.panelhead h2{font-size:21px;margin:4px 0 0}.tag{font-size:9px;color:#c5ccd2;background:#252d35;padding:7px 9px}.track{width:100%;height:auto;display:block;aspect-ratio:900/560}.trackfoot{height:38px;border-top:1px solid var(--line);padding:0 15px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:8px;letter-spacing:1px}.yellowdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--yellow);margin-right:7px}.tablehead,.driver{display:grid;grid-template-columns:38px minmax(0,1fr) 42px 76px;align-items:center;padding:0 12px}.tablehead{height:33px;color:#78838d;font-size:8px;letter-spacing:1px;border-bottom:1px solid var(--line)}.rows{max-height:560px;overflow:auto}.driver{width:100%;height:43px;background:transparent;border:0;border-bottom:1px solid #222a31;text-align:left;color:#f1f3f5}.driver:hover,.driver.selected{background:#252e37}.pos{font-weight:900;color:var(--yellow);font-size:16px}.who{display:flex;align-items:center;gap:9px;min-width:0}.stripe{width:3px;height:25px;border-radius:3px;flex:none}.who span{min-width:0}.who b,.who small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.who b{font-size:10px}.who small{font-size:8px;color:var(--muted);margin-top:3px}.lap,.gap{font-size:9px;color:#b9c1c8}.gap{text-align:right}.selectedbox{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}.selectedbox b{color:#fff}.foot{display:flex;justify-content:space-between;padding:22px 0;color:#68737d;font-size:8px;letter-spacing:1px}.foot b{color:#aab2b9}@media(max-width:950px){.layout{grid-template-columns:1fr}.rows{max-height:450px}.shell{padding:0 18px}}@media(max-width:600px){.shell{padding:0 11px}.heading{display:block}.stats{margin-top:20px;justify-content:space-between;gap:8px}.stats div{padding-left:9px}.controls{align-items:flex-start;flex-direction:column;gap:12px}.hint{display:none}.group{flex-wrap:wrap}.foot{flex-direction:column;gap:8px}.tablehead,.driver{grid-template-columns:32px minmax(0,1fr) 34px 65px;padding:0 8px}}
 
+/* CHAMPIONSHIP ENTRY */
+.championship-entry{padding:42px 0 24px}
+.championship-entry h1{font-size:clamp(32px,4vw,48px);font-style:italic;letter-spacing:-1.5px;margin:10px 0}
+.championship-entry p{color:var(--muted);font-size:12px;margin:0}
+.championship-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-top:28px}
+.championship-card{display:block;width:100%;text-align:left;color:#f2f4f5;background:linear-gradient(145deg,#1b242d,#11161c);border:1px solid #35414c;border-radius:6px;padding:0;overflow:hidden;transition:border-color .2s,transform .2s}
+.championship-card:hover{border-color:var(--yellow);transform:translateY(-2px)}
+.championship-art{height:112px;padding:18px;background:radial-gradient(ellipse at 78% 40%,#53504a,#202830 65%);display:flex;align-items:end;justify-content:space-between}
+.championship-art strong{font-size:27px;font-style:italic;letter-spacing:-1px}
+.championship-art span{font-size:9px;color:var(--yellow);letter-spacing:1.5px}
+.championship-info{padding:18px}
+.championship-info small{font-size:8px;letter-spacing:1.7px;color:var(--yellow);font-weight:bold}
+.championship-info h2{font-size:17px;margin:7px 0}
+.championship-info p{font-size:10px;color:var(--muted)}
+.championship-open{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding:13px 18px;color:#e7ebee;font-size:9px;letter-spacing:1px;font-weight:bold}
+.championship-open b{font-size:18px;color:var(--yellow)}
+.back-championships{border:1px solid #3b444e;background:#171e25;color:#c3cbd1;padding:8px 11px;font-size:9px;letter-spacing:1px;cursor:pointer}
+.homeview.pre-championship .sidebar{display:none}
+.homeview.pre-championship{grid-template-columns:minmax(0,1fr)}
+.homeview.pre-championship .homecontent{max-width:1250px}
+.homeview.pre-championship .navlabel,.homeview.pre-championship .navitem:not([data-page="inicio"]){display:none}
+@media(max-width:850px){.homeview.pre-championship{grid-template-columns:minmax(0,1fr)}}
+
 /* HOME MANAGER */
 .homeview{min-height:100vh;background:radial-gradient(ellipse at 65% -20%,#202832 0,var(--bg) 58%);display:grid;grid-template-columns:248px minmax(0,1fr)}
 .sidebar{background:#0d1116;border-right:1px solid var(--line);padding:26px 16px;display:flex;flex-direction:column;min-height:100vh}
@@ -37,7 +60,7 @@
 </style>
 </head>
 <body>
-<div class="homeview" id="homeview">
+<div class="homeview pre-championship" id="homeview">
 <aside class="sidebar">
   <div class="sidebrand"><div class="mark">K2T</div><div><b>KART 2T MANAGER</b><small>KART RACING MANAGEMENT</small></div></div>
   <div class="navlabel">MENU PRINCIPAL</div>
@@ -51,7 +74,7 @@
   <div class="sidebottom">KART 2T MANAGER<br>PROJETO EM DESENVOLVIMENTO</div>
 </aside>
 <div class="homecontent">
-  <header class="hometop"><div class="status"><i class="led on"></i> CENTRAL DE GERENCIAMENTO</div><div class="seasonpill">CAMPEONATO DEMONSTRATIVO</div></header>
+  <header class="hometop"><div class="status"><i class="led on"></i> <span id="topStatus">MEUS CAMPEONATOS</span></div><div style="display:flex;align-items:center;gap:10px"><button class="back-championships" id="backChampionships" style="display:none">← MEUS CAMPEONATOS</button><div class="seasonpill" id="seasonPill">KART 2T MANAGER</div></div></header>
   <div id="homePageContent">
   <section class="welcome"><div class="eyebrow">BEM-VINDO AO PADDOCK</div><h1>Seu mundo do <span>Kart 2T.</span></h1><p>Gerencie o campeonato, acompanhe os kartistas e prepare-se para a próxima etapa.</p></section>
   <div class="homegrid">
@@ -280,45 +303,60 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
 </script>
 <script id="homeNavigation">
 (function(){
+ const home=document.getElementById('homeview');
  const content=document.getElementById('homePageContent');
- const initial=content.innerHTML;
+ const dashboard=content.innerHTML;
+ const sidebar=home.querySelector('.sidebar');
+ const back=document.getElementById('backChampionships');
+ const topStatus=document.getElementById('topStatus');
+ const seasonPill=document.getElementById('seasonPill');
+ const demo={name:'Campeonato Demonstrativo',subtitle:'Temporada inicial · Brasil',category:'KART 2T'};
+ function showChampionships(){
+  home.classList.add('pre-championship');
+  sidebar.querySelectorAll('.navlabel,.navitem').forEach(el=>{el.style.display='';});
+  sidebar.querySelectorAll('.navitem').forEach(el=>el.classList.toggle('active',el.dataset.page==='inicio'));
+  back.style.display='none';
+  topStatus.textContent='MEUS CAMPEONATOS';
+  seasonPill.textContent='KART 2T MANAGER';
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">CENTRAL DE GERENCIAMENTO</div><h1>Meus <span style="color:var(--yellow)">campeonatos.</span></h1><p>Selecione um campeonato para acessar sua temporada, calendário, classificação, equipes e kartistas.</p></section><div class="championship-list"><button class="championship-card" id="openDemoChampionship"><div class="championship-art"><strong>KART 2T</strong><span>CAMPEONATO</span></div><div class="championship-info"><small>CAMPEONATO DEMONSTRATIVO</small><h2>'+demo.name+'</h2><p>'+demo.subtitle+' · Categoria '+demo.category+'</p></div><div class="championship-open"><span>ABRIR CAMPEONATO</span><b>›</b></div></button></div>';
+  document.getElementById('openDemoChampionship').addEventListener('click',openChampionship);
+ }
+ function openChampionship(){
+  home.classList.remove('pre-championship');
+  back.style.display='inline-block';
+  topStatus.textContent='CAMPEONATO SELECIONADO';
+  seasonPill.textContent=demo.name.toUpperCase();
+  content.innerHTML=dashboard;
+  sidebar.querySelectorAll('.navlabel,.navitem').forEach(el=>{el.style.display='';});
+  wirePages();
+  page('inicio');
+ }
  const pages={
- temporada:['TEMPORADA','Temporada demonstrativa','A temporada está pronta para ser configurada. Aqui ficarão os regulamentos, pontuação, etapas e progresso do campeonato.'],
- calendario:['CALENDÁRIO','Calendário da temporada','O calendário reunirá as etapas, kartódromos e datas do campeonato.'],
- classificacao:['CAMPEONATO','Classificação','A classificação dos kartistas será atualizada conforme os resultados das etapas simuladas.'],
- equipes:['GESTÃO','Equipes','Gerencie as equipes, cores, karts e seus kartistas.'],
- kartistas:['GESTÃO','Kartistas','Consulte e gerencie os kartistas inscritos no campeonato.']
+  temporada:['TEMPORADA','Temporada demonstrativa','A temporada está pronta para ser configurada. Aqui ficarão os regulamentos, pontuação, etapas e progresso do campeonato.'],
+  calendario:['CALENDÁRIO','Calendário da temporada','O calendário reunirá as etapas, kartódromos e datas do campeonato.'],
+  classificacao:['CAMPEONATO','Classificação','A classificação dos kartistas será atualizada conforme os resultados das etapas simuladas.'],
+  equipes:['GESTÃO','Equipes','Gerencie as equipes, cores, karts e seus kartistas.'],
+  kartistas:['GESTÃO','Kartistas','Consulte e gerencie os kartistas inscritos no campeonato.']
  };
  function page(name){
-  document.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
-  if(name==='inicio'){content.innerHTML=initial;wireHome();return;}
-  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>Central de gerenciamento do Kart 2T Manager.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
+  sidebar.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  if(name==='inicio'){content.innerHTML=dashboard;wireDashboard();return;}
+  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>'+demo.name+' · Central de gerenciamento do Kart 2T Manager.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
  }
- function wireHome(){document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));const cal=document.getElementById('viewCalendar');if(cal)cal.onclick=()=>page('calendario');}
- document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
- function showRace(){
-  const home=document.getElementById('homeview');
-  const race=document.getElementById('raceview');
-  if(!home||!race)return;
-  home.style.display='none';
-  race.style.display='block';
-  race.removeAttribute('hidden');
-  window.scrollTo(0,0);
+ function wireDashboard(){
+  document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
+  const cal=document.getElementById('viewCalendar');if(cal)cal.onclick=()=>page('calendario');
  }
- function showHome(){
-  const home=document.getElementById('homeview');
-  const race=document.getElementById('raceview');
-  if(!home||!race)return;
-  race.style.display='none';
-  home.style.display='grid';
-  window.scrollTo(0,0);
- }
+ function wirePages(){wireDashboard();}
+ sidebar.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(!home.classList.contains('pre-championship'))page(b.dataset.page)}));
+ back.addEventListener('click',showChampionships);
  document.addEventListener('click',function(event){
-  if(event.target.closest('#openRace')){event.preventDefault();showRace();}
-  if(event.target.closest('#backHome')){event.preventDefault();showHome();}
+  if(event.target.closest('#openRace')){event.preventDefault();home.style.display='none';const race=document.getElementById('raceview');race.style.display='block';race.removeAttribute('hidden');window.scrollTo(0,0);}
+  if(event.target.closest('#backHome')){event.preventDefault();document.getElementById('raceview').style.display='none';home.style.display='grid';window.scrollTo(0,0);}
  });
- window.openRaceScreen=showRace;
- window.backToHomeScreen=showHome;
+ window.openRaceScreen=()=>{home.style.display='none';document.getElementById('raceview').style.display='block';};
+ window.backToHomeScreen=()=>{document.getElementById('raceview').style.display='none';home.style.display='grid';};
+ showChampionships();
 })();
 </script>
 </body></html>
