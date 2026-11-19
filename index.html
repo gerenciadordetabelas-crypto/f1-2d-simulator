@@ -57,6 +57,23 @@
 @media(max-width:850px){.homeview{grid-template-columns:68px minmax(0,1fr)}.sidebar{padding:20px 8px}.sidebrand{justify-content:center;padding:0 0 24px}.sidebrand>div:last-child,.navlabel,.navitem .navtext,.sidebottom{display:none}.navitem{justify-content:center;padding:13px 5px}.navicon{font-size:18px}.homegrid,.lowergrid{grid-template-columns:1fr}}
 @media(max-width:520px){.homecontent{padding:0 13px 25px}.hometop{height:62px}.welcome{padding:27px 0 20px}.nextgp h2{font-size:26px}.gpmeta{gap:15px}.seasonpill{font-size:8px}}
 
+
+/* INITIAL MAIN MENU + TRACK DIRECTORY */
+.initial-menu-wrap{min-height:calc(100vh - 77px);display:flex;align-items:center;justify-content:center;padding:34px 12px 70px}
+.initial-menu{width:min(100%,560px);background:linear-gradient(145deg,#1a222b,#10151b);border:1px solid #3a4651;border-radius:9px;padding:30px;box-shadow:0 24px 80px #0008}
+.initial-menu .menu-kicker{font-size:9px;letter-spacing:2.5px;color:var(--yellow);font-weight:800}
+.initial-menu h1{font-size:clamp(30px,5vw,44px);font-style:italic;letter-spacing:-1.5px;margin:10px 0 6px}
+.initial-menu p{color:var(--muted);font-size:12px;margin:0 0 25px}
+.main-option{width:100%;display:flex;align-items:center;gap:17px;text-align:left;background:#202a34;border:1px solid #35414d;color:#f4f6f7;border-radius:5px;padding:18px;margin-top:12px;transition:.18s}
+.main-option:hover{border-color:var(--yellow);background:#28333e;transform:translateY(-1px)}
+.main-option .option-icon{width:48px;height:48px;display:grid;place-items:center;background:#111820;border:1px solid #46515c;color:var(--yellow);font-size:25px;border-radius:4px;flex:none}
+.main-option b{font-size:14px;letter-spacing:.8px;display:block}.main-option small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.main-option .option-arrow{margin-left:auto;color:var(--yellow);font-size:25px}
+.track-directory{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px;padding-bottom:35px}
+.track-directory .homecard{padding-bottom:14px}
+.track-directory .track-description{padding:0 15px;color:var(--muted);font-size:11px;line-height:1.6}
+.track-directory .track-meta{display:flex;gap:8px;padding:0 15px 12px;flex-wrap:wrap}
+.track-directory .track-meta span{font-size:8px;letter-spacing:.8px;background:#252e37;color:#d5dbe0;padding:7px 8px}
+@media(max-width:520px){.initial-menu{padding:22px}.main-option{padding:14px}.initial-menu-wrap{padding-top:20px}}
 </style>
 </head>
 <body>
@@ -319,8 +336,18 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
   {id:'vale-do-sol',name:'Kartódromo Vale do Sol',city:'Brasil',type:'Fluido e veloz',detail:'Traçado mais aberto, com curvas longas, mudanças de direção e setores de aceleração.',races:['Corrida 1','Corrida 2','Corrida 3','Corrida 4'],svg:'M28 175 L95 175 Q125 175 125 145 L125 115 Q125 85 155 85 L205 85 Q235 85 235 55 Q235 25 265 25 L315 25 Q345 25 345 55 L345 85 Q345 115 315 115 L285 115 Q255 115 255 145 L255 160 Q255 185 225 185 L170 185 Q140 185 140 155 L140 140 Q140 115 110 115 L75 115 Q45 115 45 145 L45 155 Q45 175 28 175 Z'}
  ];
  function trackSvg(t){return '<svg viewBox="0 0 380 220" role="img" aria-label="Layout ilustrativo do '+t.name+'" style="width:100%;height:auto;display:block;background:#0c1116;border:1px solid #29313a;border-radius:4px"><path d="'+t.svg+'" fill="none" stroke="#77818a" stroke-width="34" stroke-linejoin="round" stroke-linecap="round"/><path d="'+t.svg+'" fill="none" stroke="#e5e9ec" stroke-width="2" stroke-linejoin="round" stroke-dasharray="9 8"/><path d="M30 190 l0 -18 M20 181 l20 0" stroke="#f5d400" stroke-width="4"/><text x="24" y="208" fill="#f5d400" font-size="9" font-weight="bold">LARGADA</text></svg>'}
+ function showMainMenu(){
+  home.classList.add('pre-championship');back.style.display='none';topStatus.textContent='MENU PRINCIPAL';seasonPill.textContent='KART 2T MANAGER';
+  content.innerHTML='<div class="initial-menu-wrap"><section class="initial-menu"><div class="menu-kicker">KART 2T MANAGER</div><h1>Menu <span style="color:var(--yellow)">principal.</span></h1><p>Escolha por onde deseja começar.</p><button class="main-option" id="menuChampionships"><span class="option-icon">▦</span><span><b>CAMPEONATOS</b><small>Acesse seus campeonatos cadastrados.</small></span><span class="option-arrow">›</span></button><button class="main-option" id="menuTracks"><span class="option-icon">⌁</span><span><b>PISTAS</b><small>Consulte todos os kartódromos cadastrados.</small></span><span class="option-arrow">›</span></button></section></div>';
+  document.getElementById('menuChampionships').addEventListener('click',showChampionships);
+  document.getElementById('menuTracks').addEventListener('click',showTracks);
+ }
+ function showTracks(){
+  home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='PISTAS CADASTRADAS';seasonPill.textContent='2 KARTÓDROMOS';
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>Todos os kartódromos atualmente cadastrados no Kart 2T Manager.</p></section><div class="track-directory">'+tracks.map((t,i)=>'<section class="homecard"><div class="cardtop"><div><small>PISTA '+String(i+1).padStart(2,'0')+'</small><h2>'+t.name+'</h2></div><span class="tag">KART 2T</span></div><div style="padding:14px 14px 8px">'+trackSvg(t)+'</div><p class="track-description">'+t.detail+'</p><div class="track-meta"><span>'+t.type.toUpperCase()+'</span><span>BRASIL</span><span>ETAPA '+String(i+1).padStart(2,'0')+' · MIRIM 2T</span></div></section>').join('')+'</div>';
+ }
  function showChampionships(){
-  home.classList.add('pre-championship');back.style.display='none';topStatus.textContent='MEUS CAMPEONATOS';seasonPill.textContent='KART 2T MANAGER';
+  home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='MEUS CAMPEONATOS';seasonPill.textContent='KART 2T MANAGER';
   content.innerHTML='<section class="championship-entry"><div class="eyebrow">CAMPEONATO OFICIAL · BRASIL</div><h1>Meus <span style="color:var(--yellow)">campeonatos.</span></h1><p>Selecione o campeonato para acessar as etapas, corridas, classificação e gestão.</p></section><div class="championship-list"><button class="championship-card" id="openOfficialChampionship"><div class="championship-art" style="background:radial-gradient(ellipse at 78% 40%,#8a7130,#202830 65%)"><strong>MIRIM 2T</strong><span>BRASIL · OFICIAL</span></div><div class="championship-info"><small>PRIMEIRO CAMPEONATO OFICIAL</small><h2>'+championship.name+'</h2><p>Brasil · Kart 2T · 2 pistas · 8 corridas</p></div><div class="championship-open"><span>ABRIR CAMPEONATO</span><b>›</b></div></button></div>';
   document.getElementById('openOfficialChampionship').addEventListener('click',openChampionship);
  }
@@ -363,13 +390,13 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
   const ey=document.querySelector('#raceview .heading .eyebrow');if(ey)ey.textContent=championship.name.toUpperCase();
  }
  sidebar.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{if(!home.classList.contains('pre-championship'))page(b.dataset.page)}));
- back.addEventListener('click',showChampionships);
+ back.addEventListener('click',showMainMenu);
  document.addEventListener('click',function(event){
   if(event.target.closest('#openRace')){event.preventDefault();openRace('serra-azul',1)}
   if(event.target.closest('#backHome')){event.preventDefault();document.getElementById('raceview').style.display='none';home.style.display='grid';window.scrollTo(0,0)}
  });
  window.openRaceScreen=()=>openRace('serra-azul',1);
- showChampionships();
+ showMainMenu();
 })();
 </script>
 </body></html>
