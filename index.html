@@ -117,7 +117,7 @@ const teams=[
 ["Vinícius Freitas","Equipe Brasil Kart","#d8d8d8",11,0.938],
 ["William Castro","Equipe Brasil Kart","#d8d8d8",77,0.937]
 ];
-const points=[[.20,.73],[.34,.79],[.49,.77],[.63,.69],[.77,.66],[.83,.56],[.80,.47],[.72,.43],[.64,.45],[.57,.51],[.49,.49],[.43,.42],[.35,.32],[.25,.31],[.18,.39],[.17,.50],[.13,.61],[.20,.73]];;
+const points=[[.15,.78],[.32,.78],[.50,.78],[.70,.78],[.78,.77],[.83,.72],[.84,.65],[.81,.59],[.75,.56],[.68,.56],[.62,.60],[.57,.64],[.52,.61],[.49,.55],[.51,.49],[.57,.46],[.66,.46],[.74,.44],[.80,.39],[.82,.32],[.79,.25],[.73,.21],[.64,.20],[.54,.20],[.46,.23],[.42,.28],[.43,.34],[.47,.39],[.45,.44],[.39,.47],[.32,.47],[.26,.44],[.22,.39],[.19,.32],[.15,.29],[.11,.32],[.10,.39],[.12,.46],[.17,.52],[.19,.59],[.17,.66],[.13,.71],[.15,.78]];
 let cars=[],running=false,speed=1,elapsed=0,selected=-1,timer=null,phase='grid',lights=5,lightTick=0;
 const $=id=>document.getElementById(id),canvas=$('track'),ctx=canvas.getContext('2d');
 function fresh(){cars=teams.map((t,i)=>({id:i,name:t[0],team:t[1],color:t[2],number:t[3],pace:t[4],grid:i,progress:0,position:i+1,gap:0}));elapsed=0;selected=-1;phase='grid';lights=5;lightTick=0;save();render()}
@@ -128,7 +128,7 @@ function pointAt(fraction){const d=((fraction%1)+1)%1*trackSamples.total;let lo=
 function tangentAtStart(){const a=pointAt(0),b=pointAt(.002),dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return [dx/l,dy/l,-dy/l,dx/l]}
 function gridPosition(c){const [tx,ty,nx,ny]=tangentAtStart(),row=Math.floor(c.grid/2)+1,side=c.grid%2===0?-1:1,start=pointAt(0);return [start[0]-tx*row*24+nx*side*10,start[1]-ty*row*24+ny*side*10]}
 function position(c){return phase==='grid'||phase==='lights'?gridPosition(c):pointAt(c.progress)}
-function draw(){ctx.clearRect(0,0,900,560);ctx.fillStyle='#10151a';ctx.fillRect(0,0,900,560);ctx.beginPath();trackSamples.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.lineJoin='round';ctx.lineCap='round';ctx.strokeStyle='#273039';ctx.lineWidth=52;ctx.stroke();ctx.strokeStyle='#dce1e5';ctx.lineWidth=4;ctx.stroke();ctx.strokeStyle='#7e8992';ctx.lineWidth=1;ctx.stroke();
+function draw(){ctx.clearRect(0,0,900,560);ctx.fillStyle='#10151a';ctx.fillRect(0,0,900,560);ctx.beginPath();trackSamples.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.lineJoin='round';ctx.lineCap='round';ctx.setLineDash([15,15]);ctx.strokeStyle='#e7e7e7';ctx.lineWidth=61;ctx.stroke();ctx.lineDashOffset=15;ctx.strokeStyle='#d94a45';ctx.stroke();ctx.setLineDash([]);ctx.strokeStyle='#273039';ctx.lineWidth=52;ctx.stroke();ctx.strokeStyle='#dce1e5';ctx.lineWidth=3;ctx.stroke();ctx.strokeStyle='#7e8992';ctx.lineWidth=1;ctx.stroke();
 const [sx,sy]=pointAt(0),[tx,ty]=tangentAtStart();ctx.save();ctx.translate(sx,sy);ctx.rotate(Math.atan2(ty,tx));for(let r=0;r<4;r++)for(let c=0;c<2;c++){ctx.fillStyle=(r+c)%2?'#111':'#f4f4f4';ctx.fillRect(-4+c*7,-28+r*7,7,7)}ctx.restore();ctx.fillStyle='#f5d400';ctx.font='bold 12px Arial';ctx.textAlign='left';ctx.fillText('LARGADA / CHEGADA',sx+28,sy-34);
 if(phase==='grid'||phase==='lights'){ctx.fillStyle='#202830';ctx.fillRect(365,28,170,54);for(let i=0;i<5;i++){ctx.beginPath();ctx.arc(390+i*30,55,9,0,Math.PI*2);ctx.fillStyle=phase==='lights'&&i<lights?'#f01828':'#343c45';ctx.fill();ctx.strokeStyle='#69737d';ctx.lineWidth=2;ctx.stroke()}if(phase==='grid'){ctx.fillStyle='#f5d400';ctx.font='bold 12px Arial';ctx.fillText('AGUARDANDO LARGADA',365,103)}}
 cars.forEach(c=>{
