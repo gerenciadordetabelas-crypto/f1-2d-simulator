@@ -1,14 +1,22 @@
-# F1 2D Simulator
+# Kart 2T Manager
 
-Simulador 2D de corrida de Fórmula 1 para navegador.
+Simulador e gerenciador de campeonato de kart 2 tempos (2T) para navegador.
+
+## Conceito inicial
+- Uma única categoria: **Kart 2T**.
+- Interface em português, com tema escuro e detalhes amarelos.
+- Tela principal de gerenciamento separada da tela de simulação 2D.
+- Dados demonstrativos de kartistas e equipes enquanto o cadastro oficial do campeonato não é definido.
+- Progresso da simulação salvo localmente no navegador.
+
+## Simulação 2D
+- Traçado esquemático demonstrativo de kartódromo.
+- Karts desenhados individualmente no mapa.
+- Classificação atualizada durante a prova.
+- Controles de largada, iniciar, pausar, reiniciar e velocidade 1x, 2x, 4x e 8x.
+- Seleção de kartista na pista ou na classificação.
+
+Os participantes, equipes e traçado atuais são dados ilustrativos para desenvolvimento. Não representam um campeonato oficial nem um kartódromo específico.
 
 ## Publicação
-A versão publicada é um site estático independente, servido a partir de `public/index.html`. Não requer Node.js, React, Vite, dependências npm ou compilação para abrir no GitHub Pages.
-
-## Recursos
-- Mapa 2D esquemático de Interlagos com 22 carros numerados.
-- Classificação atualizada durante a simulação.
-- Controles de iniciar, pausar, reiniciar e velocidade 1x, 2x, 4x e 8x.
-- Seleção de piloto e salvamento local no navegador.
-
-Os dados de pilotos e a corrida são demonstrativos. O traçado é esquemático e não representa telemetria oficial.
+O projeto é uma aplicação estática para GitHub Pages. A publicação é feita pelo workflow em `.github/workflows/deploy.yml`.
