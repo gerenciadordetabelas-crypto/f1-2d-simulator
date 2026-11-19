@@ -330,11 +330,9 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
  const home=document.getElementById('homeview'),content=document.getElementById('homePageContent');
  const dashboard=content.innerHTML,sidebar=home.querySelector('.sidebar');
  const back=document.getElementById('backChampionships'),topStatus=document.getElementById('topStatus'),seasonPill=document.getElementById('seasonPill');
- const championship={name:'Campeonato Brasileiro Mirim 2T',subtitle:'Temporada 2026 · Brasil',category:'KART 2T'};
- const tracks=[
-  {id:'serra-azul',name:'Kartódromo Serra Azul',city:'Brasil',type:'Técnico e sinuoso',detail:'Sequência de curvas de baixa e média, cotovelos e uma reta principal para disputas de freada.',races:['Corrida 1','Corrida 2','Corrida 3','Corrida 4'],svg:'M30 190 L105 190 Q130 190 130 165 L130 140 Q130 115 155 115 L215 115 Q240 115 240 140 L240 160 Q240 185 265 185 L300 185 Q330 185 330 155 L330 115 Q330 85 300 85 L270 85 Q245 85 245 60 Q245 35 215 35 L145 35 Q115 35 115 65 L115 85 Q115 110 85 110 L55 110 Q25 110 25 140 L25 165 Q25 190 30 190 Z'},
-  {id:'vale-do-sol',name:'Kartódromo Vale do Sol',city:'Brasil',type:'Fluido e veloz',detail:'Traçado mais aberto, com curvas longas, mudanças de direção e setores de aceleração.',races:['Corrida 1','Corrida 2','Corrida 3','Corrida 4'],svg:'M28 175 L95 175 Q125 175 125 145 L125 115 Q125 85 155 85 L205 85 Q235 85 235 55 Q235 25 265 25 L315 25 Q345 25 345 55 L345 85 Q345 115 315 115 L285 115 Q255 115 255 145 L255 160 Q255 185 225 185 L170 185 Q140 185 140 155 L140 140 Q140 115 110 115 L75 115 Q45 115 45 145 L45 155 Q45 175 28 175 Z'}
- ];
+ const championship=null;
+ const tracks=[];
+ try{localStorage.removeItem('kart-2t-track');localStorage.removeItem('kart-2t-race-event')}catch(e){}
  function trackSvg(t){return '<svg viewBox="0 0 380 220" role="img" aria-label="Layout ilustrativo do '+t.name+'" style="width:100%;height:auto;display:block;background:#0c1116;border:1px solid #29313a;border-radius:4px"><path d="'+t.svg+'" fill="none" stroke="#77818a" stroke-width="34" stroke-linejoin="round" stroke-linecap="round"/><path d="'+t.svg+'" fill="none" stroke="#e5e9ec" stroke-width="2" stroke-linejoin="round" stroke-dasharray="9 8"/><path d="M30 190 l0 -18 M20 181 l20 0" stroke="#f5d400" stroke-width="4"/><text x="24" y="208" fill="#f5d400" font-size="9" font-weight="bold">LARGADA</text></svg>'}
  function showMainMenu(){
   home.classList.add('pre-championship');back.style.display='none';topStatus.textContent='MENU PRINCIPAL';seasonPill.textContent='KART 2T MANAGER';
@@ -343,13 +341,12 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
   document.getElementById('menuTracks').addEventListener('click',showTracks);
  }
  function showTracks(){
-  home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='PISTAS CADASTRADAS';seasonPill.textContent='2 KARTÓDROMOS';
-  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>Todos os kartódromos atualmente cadastrados no Kart 2T Manager.</p></section><div class="track-directory">'+tracks.map((t,i)=>'<section class="homecard"><div class="cardtop"><div><small>PISTA '+String(i+1).padStart(2,'0')+'</small><h2>'+t.name+'</h2></div><span class="tag">KART 2T</span></div><div style="padding:14px 14px 8px">'+trackSvg(t)+'</div><p class="track-description">'+t.detail+'</p><div class="track-meta"><span>'+t.type.toUpperCase()+'</span><span>BRASIL</span><span>ETAPA '+String(i+1).padStart(2,'0')+' · MIRIM 2T</span></div></section>').join('')+'</div>';
+  home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='PISTAS CADASTRADAS';seasonPill.textContent='0 PISTAS';
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">BIBLIOTECA DO SISTEMA</div><h1>Nossas <span style="color:var(--yellow)">pistas.</span></h1><p>As pistas cadastradas no Kart 2T Manager aparecerão aqui.</p></section><section class="homecard"><div class="placeholder"><strong>Nenhuma pista cadastrada.</strong><br>A biblioteca está vazia no momento.</div></section>';
  }
  function showChampionships(){
   home.classList.add('pre-championship');back.style.display='inline-block';back.textContent='← MENU PRINCIPAL';topStatus.textContent='MEUS CAMPEONATOS';seasonPill.textContent='KART 2T MANAGER';
-  content.innerHTML='<section class="championship-entry"><div class="eyebrow">CAMPEONATO OFICIAL · BRASIL</div><h1>Meus <span style="color:var(--yellow)">campeonatos.</span></h1><p>Selecione o campeonato para acessar as etapas, corridas, classificação e gestão.</p></section><div class="championship-list"><button class="championship-card" id="openOfficialChampionship"><div class="championship-art" style="background:radial-gradient(ellipse at 78% 40%,#8a7130,#202830 65%)"><strong>MIRIM 2T</strong><span>BRASIL · OFICIAL</span></div><div class="championship-info"><small>PRIMEIRO CAMPEONATO OFICIAL</small><h2>'+championship.name+'</h2><p>Brasil · Kart 2T · 2 pistas · 8 corridas</p></div><div class="championship-open"><span>ABRIR CAMPEONATO</span><b>›</b></div></button></div>';
-  document.getElementById('openOfficialChampionship').addEventListener('click',openChampionship);
+  content.innerHTML='<section class="championship-entry"><div class="eyebrow">MEUS CAMPEONATOS</div><h1>Meus <span style="color:var(--yellow)">campeonatos.</span></h1><p>Seus campeonatos cadastrados aparecerão aqui.</p></section><section class="homecard"><div class="placeholder"><strong>Nenhum campeonato cadastrado.</strong><br>Cadastre um campeonato para começar.</div></section>';
  }
  function openChampionship(){
   home.classList.remove('pre-championship');back.style.display='inline-block';topStatus.textContent='CAMPEONATO OFICIAL';seasonPill.textContent='MIRIM 2T';
@@ -381,6 +378,7 @@ load();render(true);document.querySelectorAll('[data-speed]').forEach(b=>b.class
  }
  function openRace(trackId,raceNo){
   const t=tracks.find(x=>x.id===trackId)||tracks[0];
+  if(!t)return;
   if(window.setKartTrackLayout)window.setKartTrackLayout(t.id);try{localStorage.setItem('kart-2t-track',t.id);localStorage.setItem('kart-2t-race-event',JSON.stringify({championship:championship.name,track:t.name,trackId:t.id,race:raceNo}))}catch(e){}
   const home=document.getElementById('homeview'),race=document.getElementById('raceview');
   home.style.display='none';race.style.display='block';window.scrollTo(0,0);
