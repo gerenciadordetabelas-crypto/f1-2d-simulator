@@ -124,9 +124,9 @@ const startIndex=3,rotatedPoints=points.slice(startIndex).concat(points.slice(0,
 points.splice(0,points.length,...rotatedPoints);
 let cars=[],running=false,speed=1,elapsed=0,selected=-1,timer=null,phase='grid',lights=5,lightTick=0;
 const $=id=>document.getElementById(id),canvas=$('track'),ctx=canvas.getContext('2d');
-function fresh(){cars=teams.map((t,i)=>({id:i,name:t[0],team:t[1],color:t[2],number:t[3],pace:t[4],grid:i,progress:0,laneOffset:Math.sin(i*1.91)*4,laneTarget:Math.sin(i*1.91)*4,attackSide:0,attackTimer:0,position:i+1,gap:0}));elapsed=0;selected=-1;phase='grid';lights=5;lightTick=0;save();render()}
+function fresh(){cars=teams.map((t,i)=>({id:i,name:t[0],team:t[1],color:t[2],number:t[3],pace:t[4],grid:i,progress:0,laneOffset:Math.sin(i*1.91)*4,laneTarget:Math.sin(i*1.91)*4,laneVelocity:0,attackSide:0,attackTimer:0,position:i+1,gap:0}));elapsed=0;selected=-1;phase='grid';lights=5;lightTick=0;save();render()}
 function save(){try{localStorage.setItem('kart-2t-race',JSON.stringify({version:4,cars,elapsed,speed}))}catch(e){}}
-function load(){try{const s=JSON.parse(localStorage.getItem('kart-2t-race')||'null');if(s&&s.version===4&&Array.isArray(s.cars)&&s.cars.length===22&&s.cars.every(c=>Number.isFinite(c.progress)&&typeof c.name==='string')){cars=s.cars.map((c,i)=>({...c,grid:i,laneOffset:Number.isFinite(c.laneOffset)?c.laneOffset:Math.sin(i*1.91)*4,laneTarget:Number.isFinite(c.laneTarget)?c.laneTarget:Math.sin(i*1.91)*4,attackSide:Number.isFinite(c.attackSide)?c.attackSide:0,attackTimer:Number.isFinite(c.attackTimer)?c.attackTimer:0}));elapsed=Number.isFinite(s.elapsed)?s.elapsed:0;speed=[1,2,4,8].includes(s.speed)?s.speed:1;phase=cars.some(c=>c.progress>0)?'race':'grid';return}}catch(e){}fresh()}
+function load(){try{const s=JSON.parse(localStorage.getItem('kart-2t-race')||'null');if(s&&s.version===4&&Array.isArray(s.cars)&&s.cars.length===22&&s.cars.every(c=>Number.isFinite(c.progress)&&typeof c.name==='string')){cars=s.cars.map((c,i)=>({...c,grid:i,laneOffset:Number.isFinite(c.laneOffset)?c.laneOffset:Math.sin(i*1.91)*4,laneTarget:Number.isFinite(c.laneTarget)?c.laneTarget:Math.sin(i*1.91)*4,laneVelocity:Number.isFinite(c.laneVelocity)?c.laneVelocity:0,attackSide:Number.isFinite(c.attackSide)?c.attackSide:0,attackTimer:Number.isFinite(c.attackTimer)?c.attackTimer:0}));elapsed=Number.isFinite(s.elapsed)?s.elapsed:0;speed=[1,2,4,8].includes(s.speed)?s.speed:1;phase=cars.some(c=>c.progress>0)?'race':'grid';return}}catch(e){}fresh()}
 const trackSamples=[];function buildTrack(){trackSamples.length=0;const n=points.length-1;for(let i=0;i<n;i++){const p0=points[(i-1+n)%n],p1=points[i],p2=points[(i+1)%n],p3=points[(i+2)%n];for(let j=0;j<18;j++){const t=j/18,t2=t*t,t3=t2*t;const x=.5*((2*p1[0])+(-p0[0]+p2[0])*t+(2*p0[0]-5*p1[0]+4*p2[0]-p3[0])*t2+(-p0[0]+3*p1[0]-3*p2[0]+p3[0])*t3);const y=.5*((2*p1[1])+(-p0[1]+p2[1])*t+(2*p0[1]-5*p1[1]+4*p2[1]-p3[1])*t2+(-p0[1]+3*p1[1]-3*p2[1]+p3[1])*t3);trackSamples.push([450+(x*900-450)*1.1,280+(y*560-280)*1.25])}}let total=0;trackSamples.forEach((p,i)=>{if(i)total+=Math.hypot(p[0]-trackSamples[i-1][0],p[1]-trackSamples[i-1][1]);p.push(total)});trackSamples.total=total}buildTrack();
 function pointAt(fraction){const d=((fraction%1)+1)%1*trackSamples.total;let lo=0,hi=trackSamples.length-1;while(lo<hi){const mid=(lo+hi)>>1;if(trackSamples[mid][2]<d)lo=mid+1;else hi=mid}const b=trackSamples[lo],a=trackSamples[(lo-1+trackSamples.length)%trackSamples.length],span=b[2]-a[2]||1,t=Math.max(0,Math.min(1,(d-a[2])/span));return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]}
 function tangentAtStart(){const a=pointAt(0),b=pointAt(.002),dx=b[0]-a[0],dy=b[1]-a[1],l=Math.hypot(dx,dy)||1;return [dx/l,dy/l,-dy/l,dx/l]}
@@ -160,25 +160,38 @@ let lastFrame=0,saveClock=0;
 function clamp(v,min,max){return Math.max(min,Math.min(max,v))}
 function signedTrackGap(from,to){let d=(raceDistance(to)-raceDistance(from));d-=Math.round(d);return d*trackSamples.total}
 function lateralSpace(car,target,others){
- let clearance=100;
+ let clearance=999,pressure=0;
  for(const other of others){
   if(other===car)continue;
-  const longitudinal=Math.abs(signedTrackGap(car,other));
-  if(longitudinal>74)continue;
-  const lateral=Math.abs((other.laneOffset||0)-target);
-  clearance=Math.min(clearance,Math.hypot(longitudinal,lateral));
+  const gap=signedTrackGap(car,other),longitudinal=Math.abs(gap);
+  if(longitudinal>105)continue;
+  const drift=(other.laneTarget??other.laneOffset??0)-(other.laneOffset||0);
+  const predicted=(other.laneOffset||0)+clamp(drift*.45,-7,7);
+  const lateral=Math.abs(predicted-target);
+  const distance=Math.hypot(longitudinal,lateral);
+  clearance=Math.min(clearance,distance);
+  if(gap>0&&gap<100&&lateral<17)pressure+=(100-gap)/100*(17-lateral)/17;
  }
- return clearance;
+ return {clearance,pressure};
 }
-function choosePassingLine(car,ahead,others){
- const current=car.laneOffset||0,rival=ahead.laneOffset||0;
- return [-1,1].map(side=>{
-  const target=clamp(rival+side*13+Math.sin(car.progress*6.283+car.id)*2,-19,19);
-  const clearance=lateralSpace(car,target,others);
-  const edgePenalty=Math.max(0,Math.abs(target)-15)*1.8;
-  const returnPenalty=Math.abs(target-current)*.12;
-  return {side,target,score:clearance-edgePenalty-returnPenalty};
- }).sort((a,b)=>b.score-a.score)[0];
+function choosePassingLine(car,ahead,others,behindGap=Infinity){
+ const current=car.laneOffset||0,rival=ahead?.laneOffset||0;
+ let best=null;
+ // Continuous steering targets; these are not predefined racing lanes.
+ for(let target=-20;target<=20;target+=2){
+  const space=lateralSpace(car,target,others);
+  const movement=Math.abs(target-current);
+  const rivalSeparation=Math.abs(target-rival);
+  const sideBias=ahead?Math.max(0,18-rivalSeparation)*.9:0;
+  const edgePenalty=Math.max(0,Math.abs(target)-16)*1.2;
+  const score=space.clearance-space.pressure*24-movement*.13-sideBias-edgePenalty;
+  if(!best||score>best.score)best={target,score,clearance:space.clearance};
+ }
+ if(ahead&&best&&best.clearance>19){
+  const side=best.target-rival;
+  best.side=Math.abs(side)<2?(car.id%2?1:-1):Math.sign(side);
+ }
+ return best||{target:current,score:0,clearance:0,side:1};
 }
 function tick(now){
  if(!running)return;
@@ -192,41 +205,63 @@ function tick(now){
   const ordered=snapshot.slice().sort((a,b)=>raceDistance(a)-raceDistance(b));
   for(const c of ordered){
    if(c.progress>=12)continue;
-   let ahead=null,aheadGap=Infinity;
+   let ahead=null,aheadGap=Infinity,behindGap=Infinity,behind=null;
    for(const other of snapshot){
     if(other===c)continue;
     const gap=signedTrackGap(c,other);
     if(gap>0&&gap<aheadGap){aheadGap=gap;ahead=other}
+    const back=signedTrackGap(other,c);
+    if(back>0&&back<behindGap){behindGap=back;behind=other}
    }
-   let target=Math.sin(c.progress*6.283+c.id*.91)*4.2+Math.sin(c.progress*12.566+c.id*1.73)*2.1;
-   let attacking=false,blocked=false;
-   if(ahead&&aheadGap<100){
-    const sameLine=Math.abs((ahead.laneOffset||0)-(c.laneOffset||0))<15;
-    if(aheadGap<76&&(sameLine||aheadGap<34)){
-     const pass=choosePassingLine(c,ahead,snapshot);
-     if(pass.score>17){c.attackSide=pass.side;c.attackTimer=1.35;}
-     else{blocked=true;c.attackTimer=Math.max(0,(c.attackTimer||0)-realDt);}
+   const current=c.laneOffset||0;
+   const naturalLine=Math.sin(c.progress*6.283+c.id*.91)*5.5+
+     Math.sin(c.progress*12.566+c.id*1.73)*2.7+
+     Math.sin(c.progress*3.1+c.id*.37)*1.5;
+   let target=naturalLine,attacking=false,defending=false,blocked=false;
+   if(ahead&&aheadGap<125){
+    const choice=choosePassingLine(c,ahead,snapshot,behindGap);
+    const rivalLine=ahead.laneOffset||0;
+    const lateralGap=Math.abs(current-rivalLine);
+    if(aheadGap<112&&choice.clearance>19){
+     if(aheadGap<92||lateralGap<15){
+      target=choice.target;
+      attacking=Math.abs(target-rivalLine)>9;
+      c.attackTimer=attacking?Math.max(c.attackTimer||0,.8):Math.max(0,(c.attackTimer||0)-realDt);
+      c.attackSide=Math.sign(target-rivalLine)||c.attackSide||1;
+     }
+    }else{
+     blocked=true;
+     target=clamp(rivalLine+(current-rivalLine)*.55,-20,20);
     }
    }
-   if((c.attackTimer||0)>0){
-    const side=c.attackSide||1;
-    target=clamp((ahead?.laneOffset||0)+side*14+Math.sin(c.progress*8+c.id)*1.8,-19,19);
-    attacking=true;c.attackTimer=Math.max(0,c.attackTimer-realDt);
+   if(behind&&behindGap<48){
+    const rivalOffset=behind.laneOffset||0;
+    if(Math.abs(rivalOffset-current)<14&&!attacking){
+     target=clamp(naturalLine+(c.id%2===0?1:-1)*5,-20,20);
+     defending=true;
+    }
    }
-   const challenger=snapshot.find(o=>o!==c&&signedTrackGap(o,c)>0&&signedTrackGap(o,c)<42&&Math.abs((o.laneOffset||0)-(c.laneOffset||0))<12);
-   if(challenger&&!attacking)target=clamp(target+(c.id%2===0?1:-1)*4,-19,19);
-   target=clamp(target,-19,19);c.laneTarget=target;
-   const steering=1-Math.exp(-realDt*(attacking?2.15:1.65));
-   c.laneOffset=clamp((c.laneOffset||0)+(target-(c.laneOffset||0))*steering,-19,19);
-   let trafficFactor=1;
-   if(ahead&&aheadGap<28&&Math.abs((ahead.laneOffset||0)-(c.laneOffset||0))<12){
-    trafficFactor=clamp(.72+(aheadGap/28)*.28,.72,1);blocked=true;
+   target=clamp(target,-20,20);
+   const safety=lateralSpace(c,target,snapshot);
+   if(safety.clearance<17){target=current+(target-current)*.35;blocked=true}
+   c.laneTarget=target;
+   c.laneVelocity=Number.isFinite(c.laneVelocity)?c.laneVelocity:0;
+   const desiredVelocity=clamp((target-current)*2.4,-30,30);
+   c.laneVelocity+=(desiredVelocity-c.laneVelocity)*(1-Math.exp(-realDt*4.2));
+   c.laneOffset=clamp(current+c.laneVelocity*realDt,-20,20);
+   let trafficFactor=1,draftBoost=1,sideBySide=false;
+   if(ahead&&aheadGap<32&&Math.abs((ahead.laneOffset||0)-c.laneOffset)<16){
+    trafficFactor=clamp(.76+(aheadGap/32)*.24,.76,1);blocked=true;
+   }else if(ahead&&aheadGap<62&&Math.abs((ahead.laneOffset||0)-c.laneOffset)>13){
+    sideBySide=true;
    }
-   const temperament=1+Math.sin(now/1700+c.id*2.31)*.006+Math.sin(now/3900+c.id*.77)*.004;
-   const attackBoost=attacking?1.022:1;
-   const cleanLineBoost=(!blocked&&aheadGap>55)?1.006:1;
-   const consistency=1-((c.id*7)%5)*.001;
-   const pace=c.pace*temperament*attackBoost*cleanLineBoost*consistency*trafficFactor;
+   if(ahead&&aheadGap>24&&aheadGap<82&&Math.abs((ahead.laneOffset||0)-c.laneOffset)<10)draftBoost=1.012;
+   const temperament=1+Math.sin(now/1550+c.id*2.31)*.009+Math.sin(now/3300+c.id*.77)*.006;
+   const attackBoost=attacking?1.035:sideBySide?1.018:1;
+   const defendCost=defending?0.997:1;
+   const cleanLineBoost=(!blocked&&aheadGap>58)?1.008:1;
+   const consistency=1-((c.id*7)%5)*.0015;
+   const pace=c.pace*temperament*attackBoost*draftBoost*defendCost*cleanLineBoost*consistency*trafficFactor;
    const oldLap=Math.floor(c.progress);
    c.progress=Math.min(12,c.progress+simDt*pace/22);
    if(Math.floor(c.progress)>oldLap)c.lastCrossing=elapsed+realDt;
