@@ -5,10 +5,85 @@
 <title>F1 2D Simulator</title>
 <style>
 :root{color-scheme:dark;--yellow:#f5d400;--bg:#090b0e;--panel:#12171d;--line:#29313a;--muted:#89939d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -30%,#242a31 0,var(--bg) 60%);color:#f2f4f5;font:14px Inter,Arial,sans-serif;min-height:100vh}.shell{max-width:1500px;margin:auto;padding:0 34px}.top{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.brand{display:flex;gap:13px;align-items:center}.mark{background:var(--yellow);color:#090b0e;font-weight:1000;font-style:italic;font-size:25px;padding:5px 10px;transform:skew(-8deg)}.brand b{letter-spacing:1px}.brand b span{color:var(--yellow)}.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:2px;margin-top:4px}.status{font-size:10px;letter-spacing:1.5px;color:#bbc2c8}.led{display:inline-block;width:7px;height:7px;background:#747d85;border-radius:50%;margin-right:8px}.led.on{background:var(--yellow);box-shadow:0 0 10px var(--yellow)}.heading{display:flex;justify-content:space-between;align-items:end;padding:30px 0 24px}.eyebrow{font-size:9px;letter-spacing:2px;color:var(--yellow);font-weight:bold}.heading h1{font-size:clamp(30px,4vw,44px);margin:8px 0;font-style:italic;letter-spacing:-1px}.heading h1 span{color:#aeb6bd;font-weight:400}.heading p{margin:0;color:var(--muted);font-size:12px}.stats{display:flex;gap:25px}.stats div{border-left:1px solid var(--line);padding-left:15px}.stats small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.2px;margin-bottom:6px}.stats strong{font-size:22px}.stats em{font-size:13px;color:var(--muted);font-style:normal}.controls{display:flex;align-items:center;justify-content:space-between;background:#171d24;border:1px solid var(--line);border-radius:5px;padding:12px 15px;margin-bottom:18px}.group{display:flex;align-items:center;gap:8px}.hint{font-size:9px;letter-spacing:1px;color:var(--muted);font-weight:bold;margin-right:8px}button{font:inherit;cursor:pointer}.btn,.speed{border:1px solid #3a444e;background:#222a32;color:#f2f4f5;border-radius:3px;padding:9px 13px;font-size:10px;font-weight:bold;letter-spacing:.7px}.btn.primary,.speed.active{background:var(--yellow);border-color:var(--yellow);color:#111}.btn:disabled{opacity:.4;cursor:not-allowed}.speed{padding:7px 11px}.layout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(390px,1fr);gap:18px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:5px;overflow:hidden;min-width:0}.panelhead{height:65px;padding:0 17px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.panelhead small{font-size:8px;letter-spacing:1.8px;color:var(--muted)}.panelhead h2{font-size:21px;margin:4px 0 0}.tag{font-size:9px;color:#c5ccd2;background:#252d35;padding:7px 9px}.track{width:100%;height:auto;display:block;aspect-ratio:900/560}.trackfoot{height:38px;border-top:1px solid var(--line);padding:0 15px;display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:8px;letter-spacing:1px}.yellowdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--yellow);margin-right:7px}.tablehead,.driver{display:grid;grid-template-columns:38px minmax(0,1fr) 42px 76px;align-items:center;padding:0 12px}.tablehead{height:33px;color:#78838d;font-size:8px;letter-spacing:1px;border-bottom:1px solid var(--line)}.rows{max-height:560px;overflow:auto}.driver{width:100%;height:43px;background:transparent;border:0;border-bottom:1px solid #222a31;text-align:left;color:#f1f3f5}.driver:hover,.driver.selected{background:#252e37}.pos{font-weight:900;color:var(--yellow);font-size:16px}.who{display:flex;align-items:center;gap:9px;min-width:0}.stripe{width:3px;height:25px;border-radius:3px;flex:none}.who span{min-width:0}.who b,.who small{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.who b{font-size:10px}.who small{font-size:8px;color:var(--muted);margin-top:3px}.lap,.gap{font-size:9px;color:#b9c1c8}.gap{text-align:right}.selectedbox{padding:12px 16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:10px}.selectedbox b{color:#fff}.foot{display:flex;justify-content:space-between;padding:22px 0;color:#68737d;font-size:8px;letter-spacing:1px}.foot b{color:#aab2b9}@media(max-width:950px){.layout{grid-template-columns:1fr}.rows{max-height:450px}.shell{padding:0 18px}}@media(max-width:600px){.shell{padding:0 11px}.heading{display:block}.stats{margin-top:20px;justify-content:space-between;gap:8px}.stats div{padding-left:9px}.controls{align-items:flex-start;flex-direction:column;gap:12px}.hint{display:none}.group{flex-wrap:wrap}.foot{flex-direction:column;gap:8px}.tablehead,.driver{grid-template-columns:32px minmax(0,1fr) 34px 65px;padding:0 8px}}
+
+/* HOME MANAGER */
+.homeview{min-height:100vh;background:radial-gradient(ellipse at 65% -20%,#202832 0,var(--bg) 58%);display:grid;grid-template-columns:248px minmax(0,1fr)}
+.sidebar{background:#0d1116;border-right:1px solid var(--line);padding:26px 16px;display:flex;flex-direction:column;min-height:100vh}
+.sidebrand{display:flex;align-items:center;gap:11px;padding:0 10px 30px;border-bottom:1px solid var(--line)}
+.sidebrand .mark{font-size:22px}.sidebrand b{font-size:12px;letter-spacing:1px}.sidebrand small{display:block;color:var(--muted);font-size:8px;letter-spacing:1.5px;margin-top:4px}
+.navlabel{font-size:8px;letter-spacing:2px;color:#65717c;font-weight:bold;padding:25px 11px 10px}
+.navitem{display:flex;align-items:center;gap:12px;width:100%;border:0;background:transparent;color:#aeb7bf;padding:12px 13px;text-align:left;border-radius:4px;font-size:11px;margin:2px 0}
+.navitem:hover,.navitem.active{background:#222a32;color:#fff}.navitem.active{box-shadow:inset 3px 0 var(--yellow)}.navicon{width:17px;text-align:center;color:var(--yellow);font-size:15px}
+.sidebottom{margin-top:auto;border-top:1px solid var(--line);padding:18px 10px 0;color:#69747e;font-size:8px;letter-spacing:1px;line-height:1.8}
+.homecontent{padding:0 clamp(18px,4vw,54px) 40px;max-width:1600px;width:100%;margin:0 auto}
+.hometop{height:76px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}
+.seasonpill{border:1px solid #3b444e;background:#171e25;color:#c3cbd1;padding:8px 11px;font-size:9px;letter-spacing:1px}
+.welcome{padding:38px 0 25px}.welcome .eyebrow{font-size:9px}.welcome h1{font-size:clamp(30px,4vw,46px);font-style:italic;letter-spacing:-1.5px;margin:9px 0}.welcome h1 span{color:var(--yellow)}.welcome p{color:var(--muted);font-size:12px;margin:0}
+.homegrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,.9fr);gap:17px}
+.homecard{background:linear-gradient(145deg,#171e25,#11161c);border:1px solid var(--line);border-radius:5px;overflow:hidden;min-width:0}
+.cardtop{padding:17px 19px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between}.cardtop small{font-size:8px;letter-spacing:1.7px;color:var(--muted)}.cardtop h2{font-size:16px;margin:5px 0 0}
+.nextgp{padding:24px 22px;position:relative;min-height:245px;background:linear-gradient(110deg,rgba(9,12,16,.95),rgba(9,12,16,.55)),radial-gradient(ellipse at 75% 45%,#424b55,#171e25 65%)}
+.gpflag{font-size:9px;letter-spacing:2px;color:var(--yellow);font-weight:bold}.nextgp h2{font-size:32px;font-style:italic;margin:13px 0 4px}.nextgp p{font-size:11px;color:#aab4bd;margin:0}.gpmeta{display:flex;gap:25px;margin-top:24px}.gpmeta small{display:block;color:#89949e;font-size:8px;letter-spacing:1px;margin-bottom:6px}.gpmeta b{font-size:12px}
+.actionrow{display:flex;align-items:center;gap:10px;margin-top:22px;flex-wrap:wrap}.actionrow .btn{padding:11px 16px}.btn.secondary{background:transparent;border-color:#46515c}
+.quickstats{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}
+.statbox{background:#10161c;border:1px solid #252e37;padding:16px;border-radius:3px}.statbox small{display:block;color:#87929c;font-size:8px;letter-spacing:1.3px}.statbox strong{display:block;font-size:25px;margin-top:8px}.statbox em{font-style:normal;color:#9ba5ad;font-size:10px}
+.lowergrid{display:grid;grid-template-columns:1fr 1fr;gap:17px;margin-top:17px}
+.activity{padding:0 18px}.activityrow{display:flex;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid #252d35}.activityrow:last-child{border:0}.activitydot{width:8px;height:8px;border-radius:50%;background:var(--yellow);flex:none}.activityrow b{font-size:10px;display:block}.activityrow small{font-size:9px;color:var(--muted);display:block;margin-top:4px}
+.shortcut{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #252d35;color:#e9edf0;text-decoration:none;font-size:10px}.shortcut:last-child{border:0}.shortcut span:last-child{color:var(--yellow);font-size:16px}
+.placeholder{padding:28px 22px;color:#aab4bd;font-size:12px;line-height:1.7;min-height:170px}.placeholder strong{color:#fff}
+@media(max-width:850px){.homeview{grid-template-columns:68px minmax(0,1fr)}.sidebar{padding:20px 8px}.sidebrand{justify-content:center;padding:0 0 24px}.sidebrand>div:last-child,.navlabel,.navitem .navtext,.sidebottom{display:none}.navitem{justify-content:center;padding:13px 5px}.navicon{font-size:18px}.homegrid,.lowergrid{grid-template-columns:1fr}}
+@media(max-width:520px){.homecontent{padding:0 13px 25px}.hometop{height:62px}.welcome{padding:27px 0 20px}.nextgp h2{font-size:26px}.gpmeta{gap:15px}.seasonpill{font-size:8px}}
+
 </style>
 </head>
-<body><main class="shell">
-<header class="top"><div class="brand"><div class="mark">F1</div><div><b>F1 2D <span>SIMULATOR</span></b><small>RACE CONTROL · VERSÃO INICIAL</small></div></div><div class="status"><i class="led" id="led"></i><span id="status">SIMULAÇÃO PAUSADA</span></div></header>
+<body>
+<div class="homeview" id="homeview">
+<aside class="sidebar">
+  <div class="sidebrand"><div class="mark">F1</div><div><b>F1 2D SIMULATOR</b><small>RACE MANAGEMENT</small></div></div>
+  <div class="navlabel">MENU PRINCIPAL</div>
+  <button class="navitem active" data-page="inicio"><span class="navicon">⌂</span><span class="navtext">Início</span></button>
+  <button class="navitem" data-page="temporada"><span class="navicon">▦</span><span class="navtext">Temporada</span></button>
+  <button class="navitem" data-page="calendario"><span class="navicon">▣</span><span class="navtext">Calendário</span></button>
+  <button class="navitem" data-page="classificacao"><span class="navicon">≡</span><span class="navtext">Classificação</span></button>
+  <div class="navlabel">GESTÃO</div>
+  <button class="navitem" data-page="equipes"><span class="navicon">◈</span><span class="navtext">Equipes</span></button>
+  <button class="navitem" data-page="pilotos"><span class="navicon">♙</span><span class="navtext">Pilotos</span></button>
+  <div class="sidebottom">F1 2D SIMULATOR<br>PROJETO EM DESENVOLVIMENTO</div>
+</aside>
+<div class="homecontent">
+  <header class="hometop"><div class="status"><i class="led on"></i> CENTRAL DE GERENCIAMENTO</div><div class="seasonpill">TEMPORADA DEMONSTRATIVA</div></header>
+  <div id="homePageContent">
+  <section class="welcome"><div class="eyebrow">BEM-VINDO AO PADDOCK</div><h1>Seu mundo da <span>Fórmula 1.</span></h1><p>Gerencie a temporada, acompanhe o campeonato e prepare-se para o próximo Grande Prêmio.</p></section>
+  <div class="homegrid">
+    <section class="homecard"><div class="cardtop"><div><small>PRÓXIMO EVENTO</small><h2>Fim de semana de corrida</h2></div><span class="tag">ROUND 01</span></div>
+      <div class="nextgp"><div class="gpflag">● GRANDE PRÊMIO</div><h2>São Paulo Grand Prix</h2><p>Autódromo José Carlos Pace · Interlagos · Brasil</p>
+        <div class="gpmeta"><div><small>CIRCUITO</small><b>Interlagos</b></div><div><small>EXTENSÃO</small><b>4,309 km</b></div><div><small>PROGRAMAÇÃO</small><b>Fim de semana</b></div></div>
+        <div class="actionrow"><button class="btn primary" id="openRace">▶ ABRIR FIM DE SEMANA</button><button class="btn secondary" id="viewCalendar">VER CALENDÁRIO</button></div>
+      </div>
+    </section>
+    <section class="homecard"><div class="cardtop"><div><small>RESUMO DA TEMPORADA</small><h2>Visão geral</h2></div></div><div class="quickstats">
+      <div class="statbox"><small>EQUIPES</small><strong>11</strong><em>no grid</em></div><div class="statbox"><small>PILOTOS</small><strong>22</strong><em>inscritos</em></div>
+      <div class="statbox"><small>ETAPAS</small><strong>24</strong><em>no calendário</em></div><div class="statbox"><small>ETAPA ATUAL</small><strong>01</strong><em>de 24</em></div>
+    </div></section>
+  </div>
+  <div class="lowergrid">
+    <section class="homecard"><div class="cardtop"><div><small>PADDOCK</small><h2>Atividade recente</h2></div></div><div class="activity">
+      <div class="activityrow"><i class="activitydot"></i><div><b>Temporada pronta para começar</b><small>O grid de 22 pilotos está configurado.</small></div></div>
+      <div class="activityrow"><i class="activitydot"></i><div><b>Interlagos selecionado</b><small>O próximo evento está definido.</small></div></div>
+      <div class="activityrow"><i class="activitydot"></i><div><b>Simulador 2D disponível</b><small>Acesse a corrida para acompanhar a ação na pista.</small></div></div>
+    </div></section>
+    <section class="homecard"><div class="cardtop"><div><small>ACESSO RÁPIDO</small><h2>Gerenciamento</h2></div></div>
+      <button class="shortcut" data-page="temporada"><span>Detalhes da temporada</span><span>›</span></button>
+      <button class="shortcut" data-page="calendario"><span>Calendário de corridas</span><span>›</span></button>
+      <button class="shortcut" data-page="classificacao"><span>Classificação do campeonato</span><span>›</span></button>
+      <button class="shortcut" data-page="equipes"><span>Equipes e pilotos</span><span>›</span></button>
+    </section>
+  </div>
+  </div>
+</div>
+</div>
+<main class="shell" id="raceview" style="display:none">
+<header class="top"><button class="btn secondary" id="backHome">← MENU PRINCIPAL</button><div class="brand"><div class="mark">F1</div><div><b>F1 2D <span>SIMULATOR</span></b><small>RACE CONTROL · VERSÃO INICIAL</small></div></div><div class="status"><i class="led" id="led"></i><span id="status">SIMULAÇÃO PAUSADA</span></div></header>
 <section class="heading"><div><div class="eyebrow">TEMPORADA DEMONSTRATIVA · GRANDE PRÊMIO</div><h1>São Paulo <span>Grand Prix</span></h1><p>◉ Interlagos · São Paulo · Brasil &nbsp;|&nbsp; Autódromo José Carlos Pace</p></div><div class="stats"><div><small>VOLTA</small><strong id="lapstat">1 <em>/ 12</em></strong></div><div><small>TEMPO DE SESSÃO</small><strong id="clock">00:00</strong></div><div><small>EXTENSÃO</small><strong>4,309 <em>km</em></strong></div></div></section>
 <section class="controls"><div class="group"><span class="hint">CONTROLE DE CORRIDA</span><button class="btn primary" id="toggle">▶ INICIAR</button><button class="btn" id="reset">↻ REINICIAR</button></div><div class="group"><span class="hint">VELOCIDADE</span><button class="speed active" data-speed="1">1x</button><button class="speed" data-speed="2">2x</button><button class="speed" data-speed="4">4x</button><button class="speed" data-speed="8">8x</button></div></section>
 <div class="layout"><section class="panel"><div class="panelhead"><div><small>RACE TRACK</small><h2>Mapa da pista</h2></div><span class="tag">INTERLAGOS · BR</span></div><canvas id="track" class="track" width="900" height="560" aria-label="Mapa 2D de Interlagos com os carros"></canvas><div class="trackfoot"><span><i class="yellowdot"></i>22 CARROS EM PISTA</span><span>CLIQUE EM UM CARRO PARA SELECIONAR</span></div><div class="selectedbox" id="selectedbox">Selecione um piloto na pista ou na classificação.<b id="selectedpos"></b></div></section>
@@ -55,4 +130,27 @@ $('toggle').addEventListener('click',()=>setRunning(!running));$('reset').addEve
 canvas.addEventListener('click',e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*900,y=(e.clientY-r.top)/r.height*560;let best=Infinity,id=-1;cars.forEach(c=>{const p=position(c),d=(p[0]-x)**2+(p[1]-y)**2;if(d<best){best=d;id=c.id}});if(best<1800){selected=id;render()}});
 load();document.querySelectorAll('[data-speed]').forEach(b=>b.classList.toggle('active',Number(b.dataset.speed)===speed));render();
 })();
-</script></body></html>
+</script>
+<script id="homeNavigation">
+(function(){
+ const content=document.getElementById('homePageContent');
+ const initial=content.innerHTML;
+ const pages={
+ temporada:['TEMPORADA','Temporada demonstrativa','A temporada está pronta para ser configurada. Aqui ficarão os regulamentos, pontuação, etapas e progresso do campeonato.'],
+ calendario:['CALENDÁRIO','Calendário da temporada','O calendário reunirá os Grandes Prêmios, circuitos e datas de cada etapa.'],
+ classificacao:['CAMPEONATO','Classificação','A tabela de pilotos e construtores será atualizada conforme os resultados das corridas simuladas.'],
+ equipes:['GESTÃO','Equipes','Gerencie as escuderias, cores, desempenho dos carros e pilotos titulares.'],
+ pilotos:['GESTÃO','Pilotos','Consulte e gerencie os pilotos inscritos na temporada.']
+ };
+ function page(name){
+  document.querySelectorAll('.navitem').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  if(name==='inicio'){content.innerHTML=initial;wireHome();return;}
+  const p=pages[name];content.innerHTML='<section class="welcome"><div class="eyebrow">'+p[0]+'</div><h1>'+p[1]+'</h1><p>Central de gerenciamento do F1 2D Simulator.</p></section><section class="homecard"><div class="cardtop"><div><small>'+p[0]+'</small><h2>'+p[1]+'</h2></div></div><div class="placeholder"><strong>Área em desenvolvimento.</strong><br>'+p[2]+'<br><br>Esta seção será construída nas próximas etapas do projeto.</div></section>';
+ }
+ function wireHome(){document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));const cal=document.getElementById('viewCalendar');if(cal)cal.onclick=()=>page('calendario');}
+ document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>page(b.dataset.page));
+ document.getElementById('openRace').onclick=()=>{document.getElementById('homeview').style.display='none';document.getElementById('raceview').style.display='block';window.scrollTo(0,0)};
+ document.getElementById('backHome').onclick=()=>{document.getElementById('raceview').style.display='none';document.getElementById('homeview').style.display='grid';window.scrollTo(0,0)};
+})();
+</script>
+</body></html>
